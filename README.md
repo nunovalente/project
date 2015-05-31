@@ -7,3 +7,6 @@ Andreia Francisco
 
 Repositório Privado
 Laravel 5
+
+Software github para windows:
+https://windows.github.com/
