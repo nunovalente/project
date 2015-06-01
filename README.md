@@ -7,6 +7,7 @@ Andreia Francisco
 
 Repositório Privado
 Laravel 5
+Pasta "vendor" nao incluida
 
 Software github para windows:
 https://windows.github.com/
