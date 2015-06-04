@@ -51,7 +51,6 @@
 <a name="about"></a>
 <div class="intro-header">
     <div class="container">
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="intro-message">
@@ -72,20 +71,8 @@
                 </div>
             </div>
         </div>
-
-    </div>
-    <!-- /.container -->
-
-</div>
-<!-- /.intro-header -->
-
-<!-- Page Content -->
-
-<a  name="services"></a>
-<div class="content-section-a">
-    <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-sm-10">
+            <div class="col-lg-12">
                 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
@@ -126,6 +113,19 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</div>
+<!-- /.intro-header -->
+
+<!-- Page Content -->
+
+<a  name="services"></a>
+<div class="content-section-a">
+    <div class="container">
+        <div class="row">
+            
         </div>
     </div>
     <!-- /.container -->
