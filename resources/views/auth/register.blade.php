@@ -36,6 +36,21 @@
 						</div>
 
 						<div class="form-group">
+							<label class="col-md-4 control-label">Institution</label>
+							<div class="col-md-6">
+								<select class="form-control" name="institution">
+									@foreach ($institutions->all() as $institution)
+										@if(old('institution') == $institution->id)
+											<option value="{{ $institution->id }}" selected> {{ $institution->name }} </option>
+										@else
+											<option value="{{ $institution->id }}"> {{ $institution->name }} </option>
+										@endif
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
 							<label class="col-md-4 control-label">Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password">
