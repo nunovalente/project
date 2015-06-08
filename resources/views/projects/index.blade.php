@@ -12,7 +12,11 @@
 <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
 @endsection
+
 @section('content')
+
+@include('projects.navigation')
+
 <!-- Header -->
 <div class="intro-header">
     <div class="container">
@@ -90,76 +94,53 @@
 <div class="content-section-a">
     <div class="container">
         <div class="row">
-            
-        </div>
-    </div>
-    <!-- /.container -->
-</div>
-<!-- /.content-section-a -->
-
-<div class="content-section-b">
-
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+            <div class="col-lg-4 col-sm-6">
                 <hr class="section-heading-spacer">
                 <div class="clearfix"></div>
-                <h2 class="section-heading">3D Device Mockups<br>by PSDCovers</h2>
-                <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
-            </div>
-            <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                <img class="img-responsive" src="img/dog.png" alt="">
-            </div>
-        </div>
-
-    </div>
-    <!-- /.container -->
-
-</div>
-<!-- /.content-section-b -->
-
-<div class="content-section-a">
-
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-5 col-sm-6">
-                <hr class="section-heading-spacer">
-                <div class="clearfix"></div>
-                <h2 class="section-heading">Google Web Fonts and<br>Font Awesome Icons</h2>
-                <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
+                <h2 class="section-heading">Most Recent<br>Projects</h2>
+                <p class="lead">Browse through recently updated projects!</p>
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="img/phones.png" alt="">
+                <div class="list-group list-group-border space-top">
+                    <a href="#recentprojects" class="list-group-item">
+                        <h4>Titulo do projeto</h4>
+                        <p><i>Author:</i></p>
+                    </a>
+                    <a href="#recentprojects" class="list-group-item">
+                        <h4>Titulo do projeto</h4>
+                        <p><i>Author:</i></p>
+                    </a>
+                    <a href="#recentprojects" class="list-group-item">
+                        <h4>Titulo do projeto</h4>
+                        <p><i>Author:</i></p>
+                    </a>
+                </div>
             </div>
         </div>
-
     </div>
     <!-- /.container -->
-
 </div>
 <!-- /.content-section-a -->
 
-<a  name="contact"></a>
+<a  name="getintouch"></a>
 <div class="banner">
 
     <div class="container">
 
         <div class="row">
             <div class="col-lg-6">
-                <h2>Connect to Start Bootstrap:</h2>
+                <h2>Connect with the authors:</h2>
             </div>
             <div class="col-lg-6">
                 <ul class="list-inline banner-social-buttons">
                     <li>
-                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                        <a href="mailto:2130127@my.ipleiria.pt" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <span class="network-name">Nuno</span></a>
                     </li>
                     <li>
-                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                        <a href="mailto:2131105@my.ipleiria.pt" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <span class="network-name">Eduardo</span></a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+                        <a href="mailto:2121376@my.ipleiria.pt" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <span class="network-name">Andreia</span></a>
                     </li>
                 </ul>
             </div>
@@ -182,15 +163,11 @@
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="#about">About</a>
+                        <a href="#recentprojects">Recent Projects</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="#services">Services</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#contact">Contact</a>
+                        <a href="#getintouch">Get in touch</a>
                     </li>
                 </ul>
                 <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
@@ -198,6 +175,10 @@
         </div>
     </div>
 </footer>
+
+@endsection
+
+@section('scripts')
 
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
