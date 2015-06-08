@@ -18,6 +18,9 @@
 	                    <a href="#recentprojects">Recent Projects</a>
 	                </li>
 	                <li>
+	                    <a href="#">Browse Projects</a>
+	                </li>
+	                <li>
 	                    <a href="#getintouch">Get in touch</a>
 	                </li>
 	                @if (Auth::guest())

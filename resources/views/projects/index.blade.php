@@ -167,10 +167,13 @@
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
+                        <a href="">Browse Projects</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
                         <a href="#getintouch">Get in touch</a>
                     </li>
                 </ul>
-                <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
             </div>
         </div>
     </div>
