@@ -18,6 +18,8 @@ Route::controllers([
 
 Route::get('home', 'HomeController@index');
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/authlanding', ['as' => 'authlanding', 'uses' => 'HomeController@landingPage']);
+
+Route::get('/', ['as' => 'guestlanding', 'uses' => 'WelcomeController@index']);
 
 Route::resource('pbrowser', 'ProjectBrowserController');

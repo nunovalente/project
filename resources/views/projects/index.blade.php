@@ -1,9 +1,6 @@
 @extends('app')
 @section('head')
 
-<!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-
 <!-- Custom CSS -->
 <link href="css/landing-page.css" rel="stylesheet">
 
@@ -14,6 +11,8 @@
 @endsection
 
 @section('content')
+
+<body>
 
 <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -230,5 +229,7 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+
+</body>
 
 @endsection

@@ -31,5 +31,11 @@ class HomeController extends Controller {
 	public function index()
 	{
 		return view('projects.index');
+		//trocar futuramente pela homepage de login
 	}
+
+	public function landingPage() {
+		return view('projects.index');
+	}
+
 }
