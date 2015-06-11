@@ -27,19 +27,24 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand topnav" href="#">Home</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-left">
                     <li>
                         <a href="#recentprojects">Recent Projects</a>
                     </li>
                     <li>
-                        <a href="{{ route('pbrowser') }}">Browse Projects</a>
+                        <a href="{{ route('pbrowser.index') }}">Browse Projects</a>
                     </li>
-                    <li>
-                        <a href="#getintouch">Get in touch</a>
-                    </li>
+                </ul>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                <form class="navbar-form navbar-left" role="search">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search Projects">
+                  </div>
+                  <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </form>
                     @if (Auth::guest())
                         <li><a href="{{ url('/auth/login') }}">Login</a></li>
                         <li><a href="{{ url('/auth/register') }}">Register</a></li>
@@ -208,11 +213,7 @@
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="{{ route('pbrowser') }}">Browse Projects</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#getintouch">Get in touch</a>
+                        <a href="{{ route('pbrowser.index') }}">Browse Projects</a>
                     </li>
                 </ul>
             </div>
