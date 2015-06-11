@@ -35,7 +35,7 @@
                         <a href="#recentprojects">Recent Projects</a>
                     </li>
                     <li>
-                        <a href="#">Browse Projects</a>
+                        <a href="{{ route('pbrowser') }}">Browse Projects</a>
                     </li>
                     <li>
                         <a href="#getintouch">Get in touch</a>
@@ -208,7 +208,7 @@
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="">Browse Projects</a>
+                        <a href="{{ route('pbrowser') }}">Browse Projects</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>

@@ -16,4 +16,6 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::resource('/', 'ProjectController');
+Route::get('/', 'HomeController@index');
+
+Route::get('pbrowser', array('as' => 'pbrowser', 'uses' => 'HomeController@projectBrowser'));
