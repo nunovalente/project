@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder {
 
 			// download and store the image
 			$image = $faker->image;
-			Storage::disk('local')->put($username.'.jpg', File::get($image) );
+			Storage::disk('local')->put('profiles/'.$username.'.jpg', File::get($image) );
 
 			// create the user record
 			User::create([

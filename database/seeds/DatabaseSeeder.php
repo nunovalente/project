@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('ProjectsTableSeeder');
 		$this->command->info('Projects table seeded.');
+
+		$this->call('MediaTableSeeder');
+		$this->command->info('Media table seeded.');
 	}
 
 }

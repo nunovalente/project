@@ -7,4 +7,8 @@ class Tag extends Model {
 	public $timestamps = false;
 	//
 
+	public function projects() {
+		return $this->belongsToMany('App\Project');
+	}
+
 }

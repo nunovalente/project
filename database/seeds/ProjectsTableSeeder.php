@@ -28,7 +28,7 @@ class ProjectsTableSeeder extends Seeder {
 			$endDate = $faker->optional->dateTimeBetween($startDate);
 			$featuredUntil = new DateTime('today + '.rand(500,1000).' days');
 
-			// create the user record
+			// create the project record
 			$project = Project::create([
 				'name' => $name,
 				'acronym' => $this->createAcronym($name),
@@ -55,6 +55,19 @@ class ProjectsTableSeeder extends Seeder {
 				} while ($project->users()->find($userID)!=null);
 
 				$project->users()->attach($userID);
+			}
+
+			for ($tagI = 0 ; $tagI < rand(1,5) ; $tagI++) {
+				do {
+					$tagID = rand(1,$tagsCount);
+				} while ($project->tags()->find($tagID)!=null);
+				$editor = User::where('role', '=', 4)->first();
+				$projectTag = App\ProjectTag::create([
+					'project_id'=>$project->id,
+					'tag_id'=>$tagID,
+					'added_by' => rand(1,$usersCount),
+					'state' => $editor==null?0:1,
+					'approved_by' => $editor->id]);
 			}
 
 		}
