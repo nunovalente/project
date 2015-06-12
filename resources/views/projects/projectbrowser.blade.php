@@ -41,22 +41,6 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <form class="navbar-form navbar-left" role="search">
-                      <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search Projects">
-                      </div>
-                      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                    </form>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Filters <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">None</a></li>
-                            <li><a href="#">Name</a></li>
-                            <li><a href="#">Type</a></li>
-                            <li><a href="#">Thematic Area</a></li>
-                            <li><a href="#">Tags</a></li>
-                        </ul>
-                    </li>
                     @if (Auth::guest())
                         <li><a href="{{ url('/auth/login') }}">Login</a></li>
                         <li><a href="{{ url('/auth/register') }}">Register</a></li>
@@ -85,17 +69,40 @@
                     <small class="pretty-text space-text"> <i>Browse through a collection of projects in which IPL was involved </i> </small>
                 </h1>
             </div>
-            <div class="col-lg-3 col-sm-6">
-                <select class="form-control" name="institution">
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-3 col-sm-4">
+                <p>Results order</p>
+                <select class="form-control" name="pbrowserorder">
                     <option value="responsibleab" selected> Project's responsible </option>
                     <option value="titleab"> Project Title </option>
                     <option value="datemrf"> Date (Most Recent First) </option>
                 </select>
             </div>
+            <div class="col-lg-4 col-sm-4">
+                <p>&nbsp</p>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-3">
+                <p>Search filters</p>
+                <select class="form-control" name="pbrowserfilter">
+                    <option value="none" selected> None </option>
+                    <option value="name"> Name </option>
+                    <option value="type"> Type </option>
+                    <option value="thematicarea"> Thematic area </option>
+                    <option value="tags"> Tags </option>
+                </select>
+            </div>
         </div>
-        <!-- /.row -->
 
-        <br>
+        <br><br>
 
         <!-- Projects Row -->
         <div class="row">
