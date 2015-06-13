@@ -47,7 +47,8 @@ class ProjectBrowserController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+		$project = Project::findOrFail($id);
+		return view('projects.projectdetail', $project);
 	}
 
 	/**

@@ -115,7 +115,7 @@
                         </a>
                         <div class="project-border">
                             <h3>
-                                <a href="#">{{ $projects[$i]->name }}</a>
+                                <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">{{ $projects[$i]->name }}</a>
                             </h3>
                             <p>{{ $projects[$i]->description }}</p>
                         </div>
@@ -126,7 +126,7 @@
                                 <img class="img-responsive" src="http://placehold.it/700x400" alt="">
                             </a>
                             <h3>
-                                <a href="#">{{ $projects[$i + 1]->name }}</a>
+                                <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">{{ $projects[$i + 1]->name }}</a>
                             </h3>
                             <p>{{ $projects[$i + 1]->description }}</p>
                         </div>
