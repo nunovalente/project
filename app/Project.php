@@ -12,4 +12,7 @@ class Project extends Model {
 		return $this->hasMany('App\Tag');
 	}
 
+	public function medias() {
+		return $this->hasMany('App\Media');
+	}
 }
