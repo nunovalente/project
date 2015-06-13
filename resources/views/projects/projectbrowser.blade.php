@@ -110,7 +110,8 @@
                 <div class="row">
                     <div class="col-md-6 portfolio-item">
                         <a href="#">
-                            <img class="img-responsive" src="{{ storage_path() . '/app' . '/' . $projects[$i]->medias[0]->int_file }}" alt="">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                            <!--<img class="img-responsive" src="{{ storage_path() . '/app' . '/' . $projects[$i]->medias[0]->int_file }}" alt="">-->
                         </a>
                         <div class="project-border">
                             <h3>
