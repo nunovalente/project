@@ -104,82 +104,43 @@
 
         <br><br>
 
-        <!-- Projects Row -->
-        <div class="row">
-            <div class="col-md-6 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                </a>
-                <div class="project-border">
-                    <h3>
-                        <a href="#">Project One</a>
-                    </h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+        @for($i = 0; $i <= 2; $i += 2)
+            @if(isset($projects[$i]))
+                <!-- Projects Row -->
+                <div class="row">
+                    <div class="col-md-6 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <div class="project-border">
+                            <h3>
+                                <a href="#">{{ $projects[$i]->name }}</a>
+                            </h3>
+                            <p>{{ $projects[$i]->description }}</p>
+                        </div>
+                    </div>
+                    @if(isset($projects[$i + 1]))
+                        <div class="col-md-6 portfolio-item">
+                            <a href="#">
+                                <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                            </a>
+                            <h3>
+                                <a href="#">{{ $projects[$i + 1]->name }}</a>
+                            </h3>
+                            <p>{{ $projects[$i + 1]->description }}</p>
+                        </div>
+                    @endif
                 </div>
-            </div>
-            <div class="col-md-6 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                </a>
-                <h3>
-                    <a href="#">Project Two</a>
-                </h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-        </div>
-        <!-- /.row -->
+                <!-- /.row -->
 
-        <hr>
-
-        <!-- Projects Row -->
-        <div class="row">
-            <div class="col-md-6 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                </a>
-                <h3>
-                    <a href="#">Project Three</a>
-                </h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-            <div class="col-md-6 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                </a>
-                <h3>
-                    <a href="#">Project Four</a>
-                </h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-        </div>
-        <!-- /.row -->
+                <hr>
+            @endif
+        @endfor
 
         <!-- Pagination -->
         <div class="row text-center">
             <div class="col-lg-12">
-                <ul class="pagination">
-                    <li>
-                        <a href="#">&laquo;</a>
-                    </li>
-                    <li class="active">
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li>
-                        <a href="#">&raquo;</a>
-                    </li>
-                </ul>
+                {!! $projects->render() !!}
             </div>
         </div>
         <!-- /.row -->

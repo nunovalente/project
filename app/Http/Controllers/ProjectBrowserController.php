@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Project;
 
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class ProjectBrowserController extends Controller {
 	 */
 	public function index()
 	{
-		return view('projects.projectbrowser');
+		$projects = Project::paginate(4);
+		return view('projects.projectbrowser', compact('projects'));
 	}
 
 	/**
