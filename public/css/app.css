@@ -4828,6 +4828,11 @@ a.label:focus {
 .label-danger[href]:focus {
   background-color: #c9302c;
 }
+
+.pretty-text {
+  color: #D4003D;
+}
+
 .badge {
   display: inline-block;
   min-width: 10px;

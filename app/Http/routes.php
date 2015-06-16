@@ -23,3 +23,5 @@ Route::get('/authlanding', ['as' => 'authlanding', 'uses' => 'HomeController@lan
 Route::get('/', ['as' => 'guestlanding', 'uses' => 'WelcomeController@index']);
 
 Route::resource('pbrowser', 'ProjectBrowserController');
+
+Route::get('download/{id}', ['uses' => 'MediaController@download', 'as' => 'download']);

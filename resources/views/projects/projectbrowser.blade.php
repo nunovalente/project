@@ -3,10 +3,10 @@
 @section('head')
 
     <!-- Custom CSS -->
-    <link href="css/2-col-portfolio.css" rel="stylesheet">
+    <link href="{{ asset('css/2-col-portfolio.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -102,16 +102,15 @@
             </div>
         </div>
 
-        <br><br>
+        <br><br><br>
 
         @for($i = 0; $i <= 2; $i += 2)
             @if(isset($projects[$i]))
                 <!-- Projects Row -->
                 <div class="row">
                     <div class="col-md-6 portfolio-item">
-                        <a href="#">
-                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                            <!--<img class="img-responsive" src="{{ storage_path() . '/app' . '/' . $projects[$i]->medias[0]->int_file }}" alt="">-->
+                        <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">
+                            <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i]->medias[0]->id]) }}" alt="{{ $projects[$i]->name }}">
                         </a>
                         <div class="project-border">
                             <h3>
@@ -122,8 +121,8 @@
                     </div>
                     @if(isset($projects[$i + 1]))
                         <div class="col-md-6 portfolio-item">
-                            <a href="#">
-                                <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                            <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">
+                                <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i + 1]->medias[0]->id]) }}" alt="{{ $projects[$i + 1]->name }}">
                             </a>
                             <h3>
                                 <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">{{ $projects[$i + 1]->name }}</a>

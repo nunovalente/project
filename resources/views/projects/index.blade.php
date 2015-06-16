@@ -2,10 +2,10 @@
 @section('head')
 
 <!-- Custom CSS -->
-<link href="css/landing-page.css" rel="stylesheet">
+<link href="{{ asset('css/landing-page.css') }}" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
 @endsection
@@ -25,7 +25,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand topnav" href="#">Home</a>
+                @if (Auth::guest())
+                    <a class="navbar-brand topnav" href="{{ route('guestlanding') }}">Home</a>
+                @else
+                    <a class="navbar-brand topnav" href="{{ route('authlanding') }}">Home</a>
+                @endif
                 <ul class="nav navbar-nav navbar-left">
                     <li>
                         <a href="#recentprojects">Recent Projects</a>

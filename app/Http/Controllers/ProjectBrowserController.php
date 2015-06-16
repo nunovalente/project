@@ -3,6 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\Institution;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -48,7 +50,23 @@ class ProjectBrowserController extends Controller {
 	public function show($id)
 	{
 		$project = Project::findOrFail($id);
-		return view('projects.projectdetail', $project);
+		$project_creator = User::findOrFail($project->created_by)->name;
+		$institutions_involved_id = array();
+
+		foreach ($project->users as $user) {
+			$institutions_involved_id[] = $user->institution_id;
+		}
+
+		$institutions_involved_name = array();
+
+		foreach ($institutions_involved_id as $inst) {
+			$aux_inst = Institution::findOrFail($inst);
+			if (!in_array($aux_inst, $institutions_involved_name)) {
+				$institutions_involved_name[] = $aux_inst;
+			}
+		}
+
+		return view('projects.projectdetail', compact('project', 'project_creator', 'institutions_involved_name'));
 	}
 
 	/**

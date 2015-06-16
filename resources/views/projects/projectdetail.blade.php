@@ -3,11 +3,11 @@
 @section('head')
 
     <!-- Custom CSS -->
-    <link href="../css/portfolio-item.css" rel="stylesheet">
+    <link href="{{ asset('css/portfolio-item.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,6 +37,11 @@
                 @else
                     <a class="navbar-brand topnav" href="{{ route('authlanding') }}">Home</a>
                 @endif
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="{{ route('pbrowser.index') }}">Browse Projects</a>
+                    </li>
+                </ul>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -61,12 +66,11 @@
 
     <!-- Page Content -->
     <div class="container">
-
         <!-- Portfolio Item Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Portfolio Item
-                    <small>Item Subheading</small>
+                <h1 class="page-header">{{ $project->name }}
+                    <br><small class="pretty-text small-text"><i>Project Responsible: {{ $project_creator }}</i></small>
                 </h1>
             </div>
         </div>
@@ -76,57 +80,61 @@
         <div class="row">
 
             <div class="col-md-8">
-                <img class="img-responsive" src="http://placehold.it/750x500" alt="">
+                <img class="img-responsive img-pdetail-main" src="{{ route('download', [$project->medias[0]->id]) }}" alt="{{ $project->name }}">
             </div>
 
             <div class="col-md-4">
-                <h3>Project Description</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-                <h3>Project Details</h3>
+                <h3 class="pretty-text">Project Description</h3>
+                <p>{{ $project->description }}</p>
+                <h3 class="pretty-text">Project Details</h3>
                 <ul>
-                    <li>Lorem Ipsum</li>
-                    <li>Dolor Sit Amet</li>
-                    <li>Consectetur</li>
-                    <li>Adipiscing Elit</li>
+                    <li>Type:&nbsp&nbsp{{ $project->type }}</li>
+                    <li>Theme:&nbsp&nbsp{{ $project->theme }}</li>
+                    <li>Starting date:&nbsp&nbsp{{ $project->started_at }} <i>(yyyy-mm-dd)</i></li>
+                </ul>
+                <h3 class="pretty-text">Institutions involved</h3>
+                <ul>
+                    @foreach($institutions_involved_name as $inst)
+                        <li>{{ $inst->name }}</li>
+                    @endforeach
                 </ul>
             </div>
 
         </div>
         <!-- /.row -->
 
-        <!-- Related Projects Row -->
+        <!-- media buttons -->
+        <br>
         <div class="row">
-
-            <div class="col-lg-12">
-                <h3 class="page-header">Related Projects</h3>
+            <div class="col-lg-4">
+                <div class="btn-group" role="group" aria-label="media-button-group">
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span>&nbsp&nbspView Photos</button>
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>&nbsp&nbspView Videos</button>
+                </div>
             </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
         </div>
-        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Do you wish to be contacted by {{ $project_creator }}?</h2>
+                <h4 class="space-text space-top"><a href="#">Click here</a> now to submit a contact request.</h4>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Comment box -->
+        <div class="row">
+            <div class="col-lg-12 black-text">
+                <form action="" method="">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <textarea class="not-resizable text-area-fullscreen" name="projcomment" id="projcomment" maxlength="500" placeholder="Type a comment here (500chars max)"></textarea>
+                    <br><br>
+                    <button type="submit" class="btn btn-default">
+                    Submit Comment
+                    </button>
+                </form>
+            </div>
+        </div>
 
         <hr>
 
@@ -134,7 +142,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Copyright &copy; IPL Project Browser</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -148,10 +156,10 @@
 @section('scripts')
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="../js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 
 </body>
 

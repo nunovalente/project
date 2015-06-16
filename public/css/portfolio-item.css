@@ -25,16 +25,67 @@ p {
     color: white;
 }
 
+.not-resizable {
+    resize: none;
+}
+
+.text-area-fullscreen {
+    width: 100%;
+    height: 6em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
 p {
 	font-weight: normal;
+}
+
+a {
+    color: #CF133B;
+}
+
+a:hover {
+    color: #5E001B;
+}
+
+a:visited {
+    color: #CF133B;
+}
+
+.black-text  {
+    color: black;
+}
+
+.img-pdetail-main {
+    width: 750px;
+    height: 500px;
+    border-style: inset;
+    border-radius: 0.5em;
+    border-width: 0.2em;
 }
 
 .topnav {
     font-size: 14px; 
 }
 
+.small-text {
+	font-size: 20px;
+}
+
+.space-text {
+	padding-left: 1em;
+}
+
+.space-top {
+    margin-top: 1em;
+}
+
 .portfolio-item {
     margin-bottom: 25px;
+}
+
+.pretty-text {
+	color: #A61634;
 }
 
 footer {

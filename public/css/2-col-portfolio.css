@@ -25,12 +25,21 @@ p {
     color: white;
 }
 
+.img-pbrowser {
+    width: 700px;
+    height: 350px;
+    border-style: inset;
+    border-color: white;
+    border-radius: 0.5em;
+    border-width: 0.2em;
+}
+
 p {
 	font-weight: normal;
 }
 
 a {
-    color: #D4003D;
+    color: #CF133B;
 }
 
 a:hover {
@@ -38,7 +47,7 @@ a:hover {
 }
 
 a:visited {
-	color: #D4003D;
+	color: #CF133B;
 }
 
 hr {
@@ -47,7 +56,7 @@ hr {
 }
 
 .pretty-text {
-	color: #D4003D;
+	color: #A61634;
 }
 
 .portfolio-item {
