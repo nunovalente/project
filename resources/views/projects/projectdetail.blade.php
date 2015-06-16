@@ -116,7 +116,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Do you wish to be contacted by {{ $project_creator }}?</h2>
-                <h4 class="space-text space-top"><a href="{{ route('adminpanel') }}">Click here</a> now to submit a contact request.</h4>
+                <h4 class="space-text space-top"><a href="#">Click here</a> now to submit a contact request.</h4>
             </div>
         </div>
 
