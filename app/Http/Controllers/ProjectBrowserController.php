@@ -22,19 +22,6 @@ class ProjectBrowserController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		/*$projects = Project::orderBy('name', 'asc')->paginate(4);
-		$roles = NULL;
-		$user = NULL;
-		$error_msg = false;
-
-		if (! \Auth::guest()) {
-			$user_id = \Auth::user()->id;
-			$user = User::findOrFail($user_id);
-			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
-		}
-
-		return view('projects.projectbrowser', compact('projects', 'user', 'roles', 'error_msg'));*/
-
 		$term = $request->input('searchbox');
 		$filter = $request->input('pbrowserfilter');
 		$sort = $request->input('pbrowserorder');
