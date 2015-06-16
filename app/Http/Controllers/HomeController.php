@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\User;
+use App\Constants;
+
 class HomeController extends Controller {
 
 	/*
@@ -30,8 +33,15 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+		$user_id = \Auth::user()->id;
+		$role = User::findOrFail($user_id)->role;
+
+		if ($role == Constants::$admin_role) {
+			return redirect()->route('adminpanel');
+		}
+
 		return view('projects.index');
-		//trocar futuramente pela homepage de login
+
 	}
 
 	public function landingPage() {

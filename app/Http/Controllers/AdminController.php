@@ -13,7 +13,7 @@ class AdminController extends Controller {
 	}
 
 	public function showAdministratorPanel() {
-		return view('charisma.index');
+		return view('adminpanel.index');
 	}
 
 }
