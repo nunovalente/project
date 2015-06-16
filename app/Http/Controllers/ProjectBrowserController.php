@@ -11,16 +11,21 @@ use Illuminate\Http\Request;
 
 class ProjectBrowserController extends Controller {
 
+	public function __construct() {
+		$this->middleware('role_disabled');
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
-		$projects = Project::paginate(4);
+		/*$projects = Project::orderBy('name', 'asc')->paginate(4);
 		$roles = NULL;
 		$user = NULL;
+		$error_msg = false;
 
 		if (! \Auth::guest()) {
 			$user_id = \Auth::user()->id;
@@ -28,7 +33,73 @@ class ProjectBrowserController extends Controller {
 			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
 		}
 
-		return view('projects.projectbrowser', compact('projects', 'user', 'roles'));
+		return view('projects.projectbrowser', compact('projects', 'user', 'roles', 'error_msg'));*/
+
+		$term = $request->input('searchbox');
+		$filter = $request->input('pbrowserfilter');
+		$sort = $request->input('pbrowserorder');
+		$projects = NULL;
+		$roles = NULL;
+		$user = NULL;
+		$error_msg = false;
+
+		if (! \Auth::guest()) {
+			$user_id = \Auth::user()->id;
+			$user = User::findOrFail($user_id);
+			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
+		}
+
+		if (!isset($term) || $term == '') {
+			if (isset($sort)) {
+				$projects = $this->sortPaginate(4, $sort);
+			}
+			else {
+				$projects = $this->sortPaginate(4, 'titleab');
+			}
+			
+		}
+		else{
+			switch ($filter) {
+				case 'name':
+					$projects = $this->sortWherePaginate('name', 'LIKE', "%$term%", 4, $sort);
+					break;
+
+				case 'description':
+					$projects = $this->sortWherePaginate('description', 'LIKE', "%$term%", 4, $sort);
+					break;
+
+				case 'responsible':
+					$people = User::where('name', 'LIKE', '%' . $term . '%')->get();
+					$p_id = array();
+					foreach ($people as $person) {
+						if (!in_array($person->id, $p_id)) {
+							$p_id[] = $person->id;
+						}
+
+					}
+
+					$projects = $this->sortWhereInPaginate('created_by', $p_id, 4, $sort);
+					break;
+
+				case 'type':
+					$projects = $this->sortWherePaginate('type', 'LIKE', "%$term%", 4, $sort);
+					break;
+
+				case 'startdate':
+					$projects = $this->sortWherePaginate('started_at', '=', $term, 4, $sort);
+					break;
+
+				case 'thematicarea':
+					$projects = $this->sortWherePaginate('theme', 'LIKE', "%$term%", 4, $sort);
+					break;
+			}
+		}
+
+		if (count($projects) < 1) {
+			$error_msg = true;
+		}
+
+		return view('projects.projectbrowser', compact('projects', 'user', 'roles', 'error_msg'));
 	}
 
 	/**
@@ -118,6 +189,66 @@ class ProjectBrowserController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+
+	private function sortPaginate($perPageAmmount, $sortKey) {
+		$projects = NULL;
+		switch ($sortKey) {
+
+			case 'responsibleab':
+				$projects = Project::orderBy('created_by', 'asc')->paginate($perPageAmmount);
+				break;
+
+			case 'titleab':
+				$projects = Project::orderBy('name', 'asc')->paginate($perPageAmmount);
+				break;
+
+			case 'datemrf':
+				$projects = Project::orderBy('started_at', 'desc')->paginate($perPageAmmount);
+				break;
+		}
+
+		return $projects;
+	}
+
+	private function sortWhereInPaginate($whereInA, $whereInB, $perPageAmmount, $sortKey) {
+		$projects = NULL;
+		switch ($sortKey) {
+
+			case 'responsibleab':
+				$projects = Project::whereIn($whereInA, $whereInB)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
+				break;
+
+			case 'titleab':
+				$projects = Project::whereIn($whereInA, $whereInB)->orderBy('name', 'asc')->paginate($perPageAmmount);
+				break;
+
+			case 'datemrf':
+				$projects = Project::whereIn($whereInA, $whereInB)->orderBy('started_at', 'desc')->paginate($perPageAmmount);
+				break;
+		}
+
+		return $projects;
+	}
+
+	private function sortWherePaginate($whereA, $whereB, $whereC, $perPageAmmount, $sortKey) {
+		$projects = NULL;
+		switch ($sortKey) {
+
+			case 'responsibleab':
+				$projects = Project::where($whereA, $whereB, $whereC)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
+				break;
+
+			case 'titleab':
+				$projects = Project::where($whereA, $whereB, $whereC)->orderBy('name', 'asc')->paginate($perPageAmmount);
+				break;
+
+			case 'datemrf':
+				$projects = Project::where($whereA, $whereB, $whereC)->orderBy('started_at', 'desc')->paginate($perPageAmmount);
+				break;
+		}
+
+		return $projects;
 	}
 
 }

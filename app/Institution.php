@@ -10,4 +10,7 @@ class Institution extends Model {
 		return $this->hasMany('App\User');
 	}
 
+	public function projects() {
+		return $this->hasMany('App\Project');
+	}
 }

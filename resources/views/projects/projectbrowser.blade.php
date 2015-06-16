@@ -78,89 +78,146 @@
             </div>
         </div>
         <!-- /.row -->
-
-        <div class="row">
-            <div class="col-lg-3 col-sm-4">
-                <p>Results order</p>
-                <select class="form-control" name="pbrowserorder">
-                    <option value="responsibleab" selected> Project's responsible </option>
-                    <option value="titleab"> Project Title </option>
-                    <option value="datemrf"> Date (Most Recent First) </option>
-                </select>
-            </div>
-            <div class="col-lg-4 col-sm-4">
-                <p>&nbsp</p>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                    </span>
+        <form class="inline" method="GET" action="{{ route('pbrowser.index') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="row">
+                <div class="col-lg-3 col-sm-4">
+                    <p>Results order</p>
+                    <select class="form-control" name="pbrowserorder" onchange="this.form.submit();">
+                        @if (Input::get('pbrowserorder') == 'titleab')
+                            <option value="titleab" selected> Project Title </option>
+                        @else
+                            <option value="titleab"> Project Title </option>
+                        @endif
+                        @if (Input::get('pbrowserorder') == 'responsibleab')
+                            <option value="responsibleab" selected> Project's responsible </option>
+                        @else
+                            <option value="responsibleab"> Project's responsible </option>
+                        @endif
+                        @if (Input::get('pbrowserorder') == 'datemrf')
+                            <option value="datemrf" selected> Date (Most Recent First) </option>
+                        @else
+                            <option value="datemrf"> Date (Most Recent First) </option>
+                        @endif                        
+                    </select>
+                </div>
+                <div class="col-lg-4 col-sm-4">
+                    <p>&nbsp</p>
+                    <div class="input-group">
+                        <input type="text" name="searchbox" class="form-control" value="{{ Input::get('searchbox') }}" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default inline" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-4">
+                    <p>Search filters</p>
+                    <select class="form-control" name="pbrowserfilter">
+                        @if (Input::get('pbrowserfilter') == 'name')
+                            <option value="name" selected> Name </option>
+                        @else
+                            <option value="name"> Name </option>
+                        @endif
+                        @if (Input::get('pbrowserfilter') == 'description')
+                            <option value="description" selected> Description </option>
+                        @else
+                            <option value="description"> Description </option>
+                        @endif
+                        @if (Input::get('pbrowserfilter') == 'responsible')
+                            <option value="responsible" selected> Responsible People </option>
+                        @else
+                            <option value="responsible"> Responsible People </option>
+                        @endif
+                        @if (Input::get('pbrowserfilter') == 'startdate')
+                            <option value="startdate" selected> Starting Date (yyyy-mm-dd)</option>
+                        @else
+                            <option value="startdate"> Starting Date (yyyy-mm-dd)</option>
+                        @endif
+                        @if (Input::get('pbrowserfilter') == 'type')
+                            <option value="type" selected> Type </option>
+                        @else
+                            <option value="type"> Type </option>
+                        @endif
+                        @if (Input::get('pbrowserfilter') == 'thematicarea')
+                            <option value="thematicarea" selected> Thematic area </option>
+                        @else
+                            <option value="thematicarea"> Thematic area </option>
+                        @endif
+                    </select>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-3">
-                <p>Search filters</p>
-                <select class="form-control" name="pbrowserfilter">
-                    <option value="none" selected> None </option>
-                    <option value="name"> Name </option>
-                    <option value="type"> Type </option>
-                    <option value="thematicarea"> Thematic area </option>
-                    <option value="tags"> Tags </option>
-                </select>
-            </div>
-        </div>
+        </form>
 
         <br><br><br>
 
-        @for($i = 0; $i <= 2; $i += 2)
-            @if(isset($projects[$i]))
-                <!-- Projects Row -->
-                <div class="row">
-                    <div class="col-md-6 portfolio-item">
-                        <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">
-                            <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i]->medias[0]->id]) }}" alt="{{ $projects[$i]->name }}">
-                        </a>
-                        <div class="project-border">
-                            <h3>
-                                <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">{{ $projects[$i]->name }}</a>
-                            </h3>
-                            <p>{{ $projects[$i]->description }}</p>
-                        </div>
-                    </div>
-                    @if(isset($projects[$i + 1]))
-                        <div class="col-md-6 portfolio-item">
-                            <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">
-                                <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i + 1]->medias[0]->id]) }}" alt="{{ $projects[$i + 1]->name }}">
-                            </a>
-                            <h3>
-                                <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">{{ $projects[$i + 1]->name }}</a>
-                            </h3>
-                            <p>{{ $projects[$i + 1]->description }}</p>
-                        </div>
-                    @endif
-                </div>
-                <!-- /.row -->
-
-                <hr>
-            @endif
-        @endfor
-
-        <!-- Pagination -->
-        <div class="row text-center">
-            <div class="col-lg-12">
-                {!! $projects->render() !!}
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <!-- Footer -->
-        <footer>
+        @if ($error_msg == true)
             <div class="row">
+                <div class="col-lg-12 center-text">
+                    <h1>Sorry :(</h1>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-lg-12 center-text">
+                    <h3>No results match your search term</h3>
+                    <!-- Footer -->
+                    <footer>
+                        <p>Copyright &copy; IPL Project Browser</p>
+                    </footer>
+                </div>
+            </div>
+        @else
+            @for($i = 0; $i <= 2; $i += 2)
+                @if(isset($projects[$i]))
+                    <!-- Projects Row -->
+                    <div class="row">
+                        <div class="col-md-6 portfolio-item">
+                            <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">
+                                <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i]->medias[0]->id]) }}" alt="{{ $projects[$i]->name }}">
+                            </a>
+                            <div class="project-border">
+                                <h3>
+                                    <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">{{ $projects[$i]->name }}</a>
+                                </h3>
+                                <p>{{ $projects[$i]->description }}</p>
+                            </div>
+                        </div>
+                        @if(isset($projects[$i + 1]))
+                            <div class="col-md-6 portfolio-item">
+                                <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">
+                                    <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i + 1]->medias[0]->id]) }}" alt="{{ $projects[$i + 1]->name }}">
+                                </a>
+                                <h3>
+                                    <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">{{ $projects[$i + 1]->name }}</a>
+                                </h3>
+                                <p>{{ $projects[$i + 1]->description }}</p>
+                            </div>
+                        @endif
+                    </div>
+                    <!-- /.row -->
+    
+                    <hr>
+                @endif
+            @endfor
+
+            <!-- Pagination -->
+            <div class="row text-center">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; IPL Project Browser</p>
+                    {!! $projects->appends(Input::except('page'))->render() !!}
                 </div>
             </div>
             <!-- /.row -->
-        </footer>
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright &copy; IPL Project Browser</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </footer>
+        @endif
 
     </div>
     <!-- /.container -->
@@ -170,10 +227,10 @@
 @section('scripts')
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="{{ asset('js/jquery.js') }}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 </body>
 

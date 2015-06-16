@@ -93,6 +93,8 @@
                         <li class="nav-header">Admin Dashboard</li>
                         <li><a class="ajax-link" href="{{ route('adminpanel') }}"><i
                                     class="glyphicon glyphicon-edit"></i><span> User Management</span></a></li>
+                        <li><a class="ajax-link" href="{{ route('admincreateuser') }}"><i
+                                    class="glyphicon glyphicon-plus"></i><span> Create User</span></a></li>            
                     </ul>
                 </div>
             </div>
@@ -117,7 +119,7 @@
             <a href="{{ route('authlanding') }}">IPL Project Browser</a>
         </li>
         <li>
-            <a href="{{ route('adminpanel') }}">User Management</a>
+            <a href="{{ route('admincreateuser') }}">Create User</a>
         </li>
     </ul>
 </div>
@@ -126,50 +128,60 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-content row">
-                <div class="col-lg-3 col-sm-4">
-                    <p>Results order</p>
-                    <select class="form-control" name="pbrowserorder">
-                        <option value="az" selected> A => Z </option>
-                        <option value="za"> Z => A </option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-sm-4">
-                    <p>&nbsp</p>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search user...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-sm-4">
-                    <div class="btn-group" aria-label="Create New User Button">
-                        <p>&nbsp</p>
-                        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp&nbspCreate User</button>
-                    </div>
-                </div>
-            </div>
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                <ul class="list-group">
-                    @foreach ($users as $user)
-                        <li class="list-group-item">{{ $user->name }}
-                            <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $user-> name }} management buttons">
-                                <button type="button" class="btn btn-primary">Edit</button>
-                                <button type="button" class="btn btn-warning">Password Reset</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
-                                <button type="button" class="btn btn-info">Disable</button>
-                            </div></li>
-                    @endforeach
-                </ul>
-                </div>
+               <form class="form-horizontal" role="form" method="POST" action="#">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-            </div>
-            <div class="box-content row text-center">
-                <div class="col-lg-12 col-md-12">
-                    {!! $users->render() !!}
-                </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Name</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">E-Mail Address</label>
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Institution</label>
+                        <div class="col-md-6">
+                            <select class="form-control" name="institution">
+                                @foreach ($institutions as $institution)
+                                    @if(old('institution') == $institution->id)
+                                        <option value="{{ $institution->id }}" selected> {{ $institution->name }} </option>
+                                    @else
+                                        <option value="{{ $institution->id }}"> {{ $institution->name }} </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Confirm Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="password_confirmation">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                Create User
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

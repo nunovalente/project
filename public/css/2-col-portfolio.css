@@ -25,6 +25,10 @@ p {
     color: white;
 }
 
+.inline {
+    display: inline;
+}
+
 .img-pbrowser {
     width: 700px;
     height: 350px;
@@ -53,6 +57,10 @@ a:visited {
 hr {
     margin-bottom: 5em;
     width: 50%;
+}
+
+.center-text {
+    text-align: center;
 }
 
 .pretty-text {

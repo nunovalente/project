@@ -17,16 +17,6 @@ class HomeController extends Controller {
 	*/
 
 	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
-
-	/**
 	 * Show the application dashboard to the user.
 	 *
 	 * @return Response
@@ -52,6 +42,10 @@ class HomeController extends Controller {
 		$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
 
 		return view('projects.index', compact('user', 'roles'));
+	}
+
+	public function disabledAccount() {
+		return view('projects.disabledindex');
 	}
 
 }

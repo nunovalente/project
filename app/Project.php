@@ -15,4 +15,8 @@ class Project extends Model {
 	public function medias() {
 		return $this->hasMany('App\Media');
 	}
+
+	public function institutions() {
+		return $this->hasMany('App\Institution');
+	}
 }
