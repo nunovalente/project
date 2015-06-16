@@ -37,6 +37,13 @@
                 @else
                     <a class="navbar-brand topnav" href="{{ route('authlanding') }}">Home</a>
                 @endif
+                <ul class="nav navbar-nav navbar-left">
+                    @if (isset($user) && isset($roles))
+                        @if ($user->role == $roles[0])
+                            <li class="bg-danger"><a href="{{ route('adminpanel') }}">User Management</a></li>
+                        @endif
+                    @endif
+                </ul>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

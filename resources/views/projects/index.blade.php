@@ -31,6 +31,11 @@
                     <a class="navbar-brand topnav" href="{{ route('authlanding') }}">Home</a>
                 @endif
                 <ul class="nav navbar-nav navbar-left">
+                    @if (isset($user) && isset($roles))
+                        @if ($user->role == $roles[0])
+                            <li class="bg-danger"><a href="{{ route('adminpanel') }}">User Management</a></li>
+                        @endif
+                    @endif
                     <li>
                         <a href="#recentprojects">Recent Projects</a>
                     </li>

@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +14,9 @@ class AdminController extends Controller {
 	}
 
 	public function showAdministratorPanel() {
-		return view('adminpanel.index');
+		$users = User::paginate(10);
+
+		return view('adminpanel.index', compact('users'));
 	}
 
 }

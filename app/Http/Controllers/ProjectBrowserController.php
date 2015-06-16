@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use App\Institution;
 use App\User;
+use App\Constants;
 
 use Illuminate\Http\Request;
 
@@ -18,7 +19,16 @@ class ProjectBrowserController extends Controller {
 	public function index()
 	{
 		$projects = Project::paginate(4);
-		return view('projects.projectbrowser', compact('projects'));
+		$roles = NULL;
+		$user = NULL;
+
+		if (! \Auth::guest()) {
+			$user_id = \Auth::user()->id;
+			$user = User::findOrFail($user_id);
+			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
+		}
+
+		return view('projects.projectbrowser', compact('projects', 'user', 'roles'));
 	}
 
 	/**
@@ -52,6 +62,8 @@ class ProjectBrowserController extends Controller {
 		$project = Project::findOrFail($id);
 		$project_creator = User::findOrFail($project->created_by)->name;
 		$institutions_involved_id = array();
+		$roles = NULL;
+		$user = NULL;
 
 		foreach ($project->users as $user) {
 			$institutions_involved_id[] = $user->institution_id;
@@ -66,7 +78,13 @@ class ProjectBrowserController extends Controller {
 			}
 		}
 
-		return view('projects.projectdetail', compact('project', 'project_creator', 'institutions_involved_name'));
+		if (! \Auth::guest()) {
+			$user_id = \Auth::user()->id;
+			$user = User::findOrFail($user_id);
+			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
+		}
+
+		return view('projects.projectdetail', compact('project', 'project_creator', 'institutions_involved_name', 'user', 'roles'));
 	}
 
 	/**

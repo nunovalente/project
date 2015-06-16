@@ -34,18 +34,24 @@ class HomeController extends Controller {
 	public function index()
 	{
 		$user_id = \Auth::user()->id;
-		$role = User::findOrFail($user_id)->role;
+		$user = User::findOrFail($user_id);
+		$role = $user->role;
 
 		if ($role == Constants::$admin_role) {
 			return redirect()->route('adminpanel');
 		}
 
-		return view('projects.index');
+		$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
+		return view('projects.index', compact('user', 'roles'));
 
 	}
 
 	public function landingPage() {
-		return view('projects.index');
+		$user_id = \Auth::user()->id;
+		$user = User::findOrFail($user_id);
+		$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
+
+		return view('projects.index', compact('user', 'roles'));
 	}
 
 }

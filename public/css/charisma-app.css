@@ -4,6 +4,24 @@ select {
     background-color: #fff;
 }
 
+body,
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    padding-top: 100px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+}
+
 .ch-container {
     padding: 0 15px;
 }
@@ -317,13 +335,10 @@ div.center, p.center, img.center {
     margin-left: -2px;
 }
 
-.navbar-brand {
-    font-family: 'Shojumaru', cursive, Arial, serif;
-    letter-spacing: 2px;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-    width: 183px;
-    font-size: 17px;
+.topnav {
+    font-size: 14px; 
 }
+
 
 .navbar-brand img {
     float: left;
@@ -528,16 +543,52 @@ ul.github-buttons li {
     text-align: center;
 }
 
+.pagination > li > a,
+.pagination > li > a:link,
+.pagination > li > a:visited {
+  color: white;
+  background-color: gray;
+  border: 1px solid #D4003D;
+}
+
+.pagination > li > a:hover {
+  background-color: darkgray;
+}
+
+.pagination > li.active > a,
+.pagination > li.active > a:focus,
+.pagination > li.active > a:hover {
+  color: white;
+  background-color: gray;
+  border: 1px solid #D4003D;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 2;
+  cursor: default;
+  color: white;
+  background-color: darkgray;
+  border: 1px solid #D4003D;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  cursor: not-allowed;
+  color: white;
+  background-color: gray;
+  border: 1px solid #D4003D;
+}
+
 /* Mobile */
 @media only screen and (max-width: 767px) {
-
-    .navbar-brand {
-        font-family: 'Shojumaru', cursive, Arial, serif;
-        letter-spacing: 2px;
-        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-        width: 40%;
-        font-size: 14px;
-    }
 
     .nav-sm {
         display: block;
