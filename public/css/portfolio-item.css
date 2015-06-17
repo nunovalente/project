@@ -9,7 +9,8 @@ html {
     width: 100%;
     height: 100%;
     padding-top: 25px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    background-color: #40413E;
+    background-image: url("../img/footer_lodyas.png");
+    background-repeat: repeat;
 }
 
 body,

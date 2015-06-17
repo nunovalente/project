@@ -150,6 +150,8 @@
 
         <br><br><br>
 
+        <!-- CONTENT -->
+
         @if ($error_msg == true)
             <div class="row">
                 <div class="col-lg-12 center-text">
@@ -170,7 +172,7 @@
             @for($i = 0; $i <= 2; $i += 2)
                 @if(isset($projects[$i]))
                     <!-- Projects Row -->
-                    <div class="row">
+                    <div class="row row-a">
                         <div class="col-md-6 portfolio-item">
                             <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">
                                 <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i]->medias[0]->id]) }}" alt="{{ $projects[$i]->name }}">
