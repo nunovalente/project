@@ -52,6 +52,10 @@ a:visited {
     color: #CF133B;
 }
 
+a.link-clear {
+    color: #555555;
+}
+
 .black-text  {
     color: black;
 }

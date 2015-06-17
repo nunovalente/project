@@ -3,7 +3,7 @@
 @section('head')
 
     <!-- Custom CSS -->
-    <link href="{{ asset('css/portfolio-item.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/2-col-portfolio.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -71,77 +71,118 @@
 
     <!-- Page Content -->
     <div class="container">
-        <!-- Portfolio Item Heading -->
+
+        <!-- Page Header -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">{{ $project->name }}
-                    <br><small class="pretty-text small-text"><i>Project Responsible: {{ $project_creator }}</i></small>
+                <h1 class="page-header">{{ $proj_name }}
+                    <small class="pretty-text space-text"> <i>{{ $gallery }} </i> </small>
                 </h1>
             </div>
         </div>
-        <!-- /.row -->
 
-        <!-- Portfolio Item Row -->
-        <div class="row">
+        <br><br><br>
 
-            <div class="col-md-8">
-                <img class="img-responsive img-pdetail-main" src="{{ route('download', [$project->medias[0]->id]) }}" alt="{{ $project->name }}">
-            </div>
+        @if ($gallery == 'Photo Gallery')
 
-            <div class="col-md-4">
-                <h3 class="pretty-text">Project Description</h3>
-                <p>{{ $project->description }}</p>
-                <h3 class="pretty-text">Project Details</h3>
-                <ul>
-                    <li>Type:&nbsp&nbsp{{ $project->type }}</li>
-                    <li>Theme:&nbsp&nbsp{{ $project->theme }}</li>
-                    <li>Starting date:&nbsp&nbsp{{ $project->started_at }} <i>(yyyy-mm-dd)</i></li>
-                </ul>
-                <h3 class="pretty-text">Institutions involved</h3>
-                <ul>
-                    @foreach($institutions_involved_name as $inst)
-                        <li>{{ $inst->name }}</li>
-                    @endforeach
-                </ul>
-            </div>
-
-        </div>
-        <!-- /.row -->
-
-        <!-- media buttons -->
-        <br>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="btn-group" role="group" aria-label="media-button-group">
-                    <a type="button" href="{{ route('photos', $project->id) }}" class="link-clear btn btn-default"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span>&nbsp&nbspView Photos</a>
-                    <a type="button" href="{{ route('videos', $project->id) }}" class="link-clear btn btn-default"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>&nbsp&nbspView Videos</a>
+            <!-- PHOTO CONTENT -->
+            <?php $cols = 0; $m_count = 0; ?>
+            @foreach ($media as $m)
+                @if ($m->mime_type == 'image/jpg' || $m->mime_type == 'image/png')
+                    @if ($cols == 0)
+                        <div class="row">
+                        <div class="col-md-6 portfolio-item">
+                            <img class="img-responsive img-pbrowser" src="{{ route('download', [$m->id]) }}" alt="{{ $m->title }}">
+                        </div>
+                        <?php $m_count++; ?>
+                    @endif
+                    @if ($cols == 1)
+                        <div class="col-md-6 portfolio-item">
+                            <img class="img-responsive img-pbrowser" src="{{ route('download', [$m->id]) }}" alt="{{ $m->title }}">
+                        </div>
+                        <?php $m_count++; ?>
+                        </div>
+                        <?php $cols = 0; ?>
+                    @else
+                        <?php $cols++; ?>
+                    @endif
+                @endif
+            @endforeach
+    
+            @if ($m_count % 2 != 0)
                 </div>
-            </div>
-        </div>
-        <div class="row">
+            @endif
+
+            @if ($m_count == 0)
+                <div class="row">
+                <div class="col-lg-12 center-text">
+                    <h1>Sorry :(</h1>
+                </div>
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="col-lg-12 center-text">
+                        <h3>There are no images to show about this project</h3>
+                    </div>
+                </div>
+            @endif
+
+        @else
+            <!-- VIDEO CONTENT -->
+            <?php $cols = 0; $m_count = 0; ?>
+            @foreach ($media as $m)
+                @if ($m->mime_type == 'video/mp4' || $m->mime_type == 'video/x-ms-wmv' || $m->mime_type == 'video/x-msvideo')
+                    @if ($cols == 0)
+                        <div class="row">
+                        <div class="col-md-6 portfolio-item">
+                            <video class="vid-pbrowser" controls>
+                                <source src="{{ route('download', [$m->id]) }}">
+                            </video>
+                        </div>
+                        <?php $m_count++; ?>
+                    @endif
+                    @if ($cols == 1)
+                        <div class="col-md-6 portfolio-item">
+                            <video class="vid-pbrowser" controls>
+                                <source src="{{ route('download', [$m->id]) }}">
+                            </video>
+                        </div>
+                        <?php $m_count++; ?>
+                        </div>
+                        <?php $cols = 0; ?>
+                    @else
+                        <?php $cols++; ?>
+                    @endif
+                @endif
+            @endforeach
+    
+            @if ($m_count % 2 != 0)
+                </div>
+            @endif
+
+            @if ($m_count == 0)
+                <div class="row">
+                <div class="col-lg-12 center-text">
+                    <h1>Sorry :(</h1>
+                </div>
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="col-lg-12 center-text">
+                        <h3>There are no videos to show about this project</h3>
+                    </div>
+                </div>
+            @endif
+        @endif
+
+        <!-- Pagination -->
+        <div class="row text-center">
             <div class="col-lg-12">
-                <h2>Do you wish to be contacted by {{ $project_creator }}?</h2>
-                <h4 class="space-text space-top"><a href="#">Click here</a> now to submit a contact request.</h4>
+                <!-- pagination content  -->
+                {!! $media->render() !!}
             </div>
         </div>
-
-        <hr>
-
-        <!-- Comment box -->
-        <div class="row">
-            <div class="col-lg-12 black-text">
-                <form action="" method="">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <textarea class="not-resizable text-area-fullscreen" name="projcomment" id="projcomment" maxlength="500" placeholder="Type a comment here (500chars max)"></textarea>
-                    <br><br>
-                    <button type="submit" class="btn btn-default">
-                    Submit Comment
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <hr>
+        <!-- /.row -->
 
         <!-- Footer -->
         <footer>

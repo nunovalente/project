@@ -29,6 +29,11 @@ p {
     display: inline;
 }
 
+.vid-pbrowser {
+    width: 700px;
+    height: 500px;
+}
+
 .img-pbrowser {
     width: 700px;
     height: 350px;

@@ -35,3 +35,7 @@ Route::get('download/{id}', ['uses' => 'MediaController@download', 'as' => 'down
 Route::get('adminpanel', ['uses' => 'AdminController@showAdministratorPanel', 'as' => 'adminpanel']);
 
 Route::get('admincreateuser', ['uses' => 'AdminController@showCreateUser', 'as' => 'admincreateuser']);
+
+Route::get('/photos/{id}', ['uses' => 'ProjectGalleryController@showPhotos', 'as' => 'photos']);
+
+Route::get('/videos/{id}', ['uses' => 'ProjectGalleryController@showVideos', 'as' => 'videos']);
