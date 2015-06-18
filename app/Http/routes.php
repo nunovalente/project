@@ -53,3 +53,5 @@ Route::get('/videos/{id}', ['uses' => 'ProjectGalleryController@showVideos', 'as
 Route::get('/edituser/{id}', ['uses' => 'AdminController@showEditUser', 'as' => 'edituser']);
 
 Route::post('/edituser/{id}', ['uses' => 'AdminController@edit', 'as' => 'adminedituser-post']);
+
+Route::get('/contactrequest/{contacteeid}/{contacterid}/{projectid}', ['uses' => 'MailController@sendContactRequest', 'as' => 'contactrequest']);

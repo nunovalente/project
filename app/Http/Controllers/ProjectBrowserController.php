@@ -128,6 +128,7 @@ class ProjectBrowserController extends Controller {
 	{
 		$project = Project::findOrFail($id);
 		$project_creator = User::findOrFail($project->created_by)->name;
+		$project_creator_id = User::findOrFail($project->created_by)->id;
 		$institutions_involved_id = array();
 		$roles = NULL;
 		$user = NULL;
@@ -151,7 +152,7 @@ class ProjectBrowserController extends Controller {
 			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
 		}
 
-		return view('projects.projectdetail', compact('project', 'project_creator', 'institutions_involved_name', 'user', 'roles'));
+		return view('projects.projectdetail', compact('project', 'project_creator', 'project_creator_id', 'institutions_involved_name', 'user', 'roles'));
 	}
 
 	/**
