@@ -79,7 +79,6 @@
         </div>
         <!-- /.row -->
         <form class="inline" method="GET" action="{{ route('pbrowser.index') }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="row">
                 <div class="col-lg-3 col-sm-4">
                     <p>Results order</p>
@@ -177,12 +176,10 @@
                             <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">
                                 <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i]->medias[0]->id]) }}" alt="{{ $projects[$i]->name }}">
                             </a>
-                            <div class="project-border">
-                                <h3>
-                                    <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">{{ $projects[$i]->name }}</a>
-                                </h3>
-                                <p>{{ $projects[$i]->description }}</p>
-                            </div>
+                            <h3>
+                                <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">{{ $projects[$i]->name }}</a>
+                            </h3>
+                            <p>{{ $projects[$i]->description }}</p>
                         </div>
                         @if(isset($projects[$i + 1]))
                             <div class="col-md-6 portfolio-item">

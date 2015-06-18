@@ -80,16 +80,7 @@ class UserController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		$user = User::findOrFail($id);
-		$user->delete();
-		return redirect()->route('adminpanel');
-	}
-
-	public function disable($id) {
-		$user = User::findOrFail($id);
-		$user->role = Constants::$disabled_role;
-		$user->save();
-		return redirect()->route('adminpanel');
+		
 	}
 
 }

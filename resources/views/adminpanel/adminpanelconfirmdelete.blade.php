@@ -118,9 +118,6 @@
         <li>
             <a href="{{ route('authlanding') }}">IPL Project Browser</a>
         </li>
-        <li>
-            <a href="{{ route('admincreateuser') }}">Create User</a>
-        </li>
     </ul>
 </div>
 
@@ -128,70 +125,33 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-content row">
-                @if (count($errors) > 0)
+                @if ($error == true)
                     <div class="alert alert-danger margin-side">
-                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                        <strong>Whoops!</strong> You can't delete {{ $user-> name }}<br><br>
+                        This user's account has project content associated to it
+                    </div>
+                @else
+                    <div class="margin-side">
+                        <p>{{ $user->name }}</p>
+                        Are you sure you wish to delete this user?
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('admindeleteuserdatabase', $user->id) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-warning">Yes, I want to delete the user</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form class="form-horizontal" role="form" method="GET" action="{{ route('adminpanel') }}">        
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-info">No, take me back</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 @endif
-               <form class="form-horizontal" role="form" method="POST" action="{{route('admincreateuser-post')}}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Name</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">E-Mail Address</label>
-                        <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Institution</label>
-                        <div class="col-md-6">
-                            <select class="form-control" name="institution">
-                                @foreach ($institutions as $institution)
-                                    @if(old('institution') == $institution->id)
-                                        <option value="{{ $institution->id }}" selected> {{ $institution->name }} </option>
-                                    @else
-                                        <option value="{{ $institution->id }}"> {{ $institution->name }} </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Password</label>
-                        <div class="col-md-6">
-                            <input type="password" class="form-control" name="password">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Confirm Password</label>
-                        <div class="col-md-6">
-                            <input type="password" class="form-control" name="password_confirmation">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <button type="submit" class="btn btn-primary">
-                                Create User
-                            </button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

@@ -18,7 +18,7 @@ class RoleDisabledMiddleware {
 			return $next($request);
 		}
 		
-		if (($request->user()->role == Constants::$disabled_role)) {
+		if (($request->user()->flags == Constants::$disabled_flag)) {
 			return redirect('/disabled');
 		}
 		

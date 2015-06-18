@@ -128,22 +128,32 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-content row">
-                <div class="col-lg-3 col-sm-4">
-                    <p>Results order</p>
-                    <select class="form-control" name="pbrowserorder">
-                        <option value="az" selected> A => Z </option>
-                        <option value="za"> Z => A </option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-sm-4">
-                    <p>&nbsp</p>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search user...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        </span>
+                <form class="inline" method="GET" action="{{ route('adminpanel') }}">
+                    <div class="col-lg-3 col-sm-4">
+                        <p>Results order</p>
+                        <select class="form-control" name="adminpanelorder" onchange="this.form.submit();">
+                            @if (Input::get('admingpanelorder') == 'az')
+                                <option value="az" selected> A => Z </option>
+                            @else
+                                <option value="az"> A => Z </option>
+                            @endif
+                            @if (Input::get('adminpanelorder') == 'za')
+                                <option value="za" selected> Z => A </option>
+                            @else
+                                <option value="za"> Z => A </option>
+                            @endif
+                        </select>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-sm-4">
+                        <p>&nbsp</p>
+                        <div class="input-group">
+                            <input type="text" name="searchbox" class="form-control" value="{{ Input::get('searchbox') }}" placeholder="Search user...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
                 <div class="col-lg-2 col-sm-4">
                     <div class="btn-group" aria-label="Create New User Button">
                         <p>&nbsp</p>
@@ -159,21 +169,32 @@
                         <tr class="list-group-item">
                         <td>{{ $user->name }}</td>
                             <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $user-> name }} management buttons">
-                                <td><button type="button" class="btn btn-primary">Edit</button></td>
-                                <td><button type="button" class="btn btn-warning">Password Reset</button></td>
+
+                                <td><form action="{{ route('edituser', $user->id) }}" method="get">
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                    </form>
+                                </td>
                                 
-                                <td><form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                <td><form action="{{ route('adminpanelreset', $user->id) }}" method="get">
+                                        <button type="submit" class="btn btn-warning">Password Reset</button>
+                                    </form>
+                                </td>
+                                
+                                <td><form action="{{ route('admindeleteuser', $user->id) }}" method="post">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="btn btn-danger">
                                         Delete
                                         </button>
                                 </form></td>
 
-                                <td><form action="{{ route('userdisable', $user->id) }}" method="get">
+                                <td><form action="{{ route('userdisableenable', $user->id) }}" method="get">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button type="submit" class="btn btn-info">
-                                        Disable
+                                        @if ($user->flags == App\Constants::$disabled_flag)
+                                            Enable
+                                        @else
+                                            Disable
+                                        @endif
                                         </button>
                                 </form></td>
                             </div>
@@ -186,7 +207,7 @@
             </div>
             <div class="box-content row text-center">
                 <div class="col-lg-12 col-md-12">
-                    {!! $users->render() !!}
+                    {!! $users->appends(Input::all())->render() !!}
                 </div>
 
             </div>

@@ -118,9 +118,6 @@
         <li>
             <a href="{{ route('authlanding') }}">IPL Project Browser</a>
         </li>
-        <li>
-            <a href="{{ route('admincreateuser') }}">Create User</a>
-        </li>
     </ul>
 </div>
 
@@ -138,37 +135,8 @@
                         </ul>
                     </div>
                 @endif
-               <form class="form-horizontal" role="form" method="POST" action="{{route('admincreateuser-post')}}">
+               <form class="form-horizontal" role="form" method="POST" action="{{ route('admineditpassword', $user_id) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Name</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">E-Mail Address</label>
-                        <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Institution</label>
-                        <div class="col-md-6">
-                            <select class="form-control" name="institution">
-                                @foreach ($institutions as $institution)
-                                    @if(old('institution') == $institution->id)
-                                        <option value="{{ $institution->id }}" selected> {{ $institution->name }} </option>
-                                    @else
-                                        <option value="{{ $institution->id }}"> {{ $institution->name }} </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Password</label>
@@ -187,7 +155,7 @@
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <button type="submit" class="btn btn-primary">
-                                Create User
+                                Edit Password
                             </button>
                         </div>
                     </div>

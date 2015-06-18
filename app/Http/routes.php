@@ -28,14 +28,28 @@ Route::resource('pbrowser', 'ProjectBrowserController');
 
 Route::resource('users', 'UserController');
 
-Route::get('disable/{id}', ['uses' => 'UserController@disable', 'as' => 'userdisable']);
+Route::get('disableenable/{id}', ['uses' => 'AdminController@disableOrEnable', 'as' => 'userdisableenable']);
 
 Route::get('download/{id}', ['uses' => 'MediaController@download', 'as' => 'download']);
 
 Route::get('adminpanel', ['uses' => 'AdminController@showAdministratorPanel', 'as' => 'adminpanel']);
 
+Route::get('adminpanel/reset/{id}', ['uses' => 'AdminController@showPasswordReset', 'as' => 'adminpanelreset']);
+
 Route::get('admincreateuser', ['uses' => 'AdminController@showCreateUser', 'as' => 'admincreateuser']);
+
+Route::post('admincreateuser', ['uses' => 'AdminController@postCreateUser', 'as' => 'admincreateuser-post']);
+
+Route::post('admineditpassword/{id}', ['uses' => 'AdminController@editPassword', 'as' => 'admineditpassword']);
+
+Route::post('delete/{id}', ['uses' => 'AdminController@showDeleteUser', 'as' => 'admindeleteuser']);
+
+Route::post('delete/remove/{id}', ['uses' => 'AdminController@delete', 'as' => 'admindeleteuserdatabase']);
 
 Route::get('/photos/{id}', ['uses' => 'ProjectGalleryController@showPhotos', 'as' => 'photos']);
 
 Route::get('/videos/{id}', ['uses' => 'ProjectGalleryController@showVideos', 'as' => 'videos']);
+
+Route::get('/edituser/{id}', ['uses' => 'AdminController@showEditUser', 'as' => 'edituser']);
+
+Route::post('/edituser/{id}', ['uses' => 'AdminController@edit', 'as' => 'adminedituser-post']);

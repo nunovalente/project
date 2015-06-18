@@ -118,9 +118,6 @@
         <li>
             <a href="{{ route('authlanding') }}">IPL Project Browser</a>
         </li>
-        <li>
-            <a href="{{ route('admincreateuser') }}">Create User</a>
-        </li>
     </ul>
 </div>
 
@@ -138,20 +135,51 @@
                         </ul>
                     </div>
                 @endif
-               <form class="form-horizontal" role="form" method="POST" action="{{route('admincreateuser-post')}}">
+                <div class="alert alert-info margin-side">
+                    Editing user {{ $user->name }}
+                </div>
+                <form class="form-horizontal" role="form" method="POST" action="{{route('adminedituser-post', $user->id)}}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Name</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                            <input type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Profile Picture</label>
+                        <div class="col-md-6">
+                            <input type="file" class="form-control" name="profile_pic">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">E-Mail Address</label>
                         <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                            <input type="email" class="form-control" name="email" value="{{ old('email', $user->email) }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Alternative E-Mail Address</label>
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" name="alt_email" value="{{ old('alt_email', $user->alt_email) }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Confirm Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="password_confirmation">
                         </div>
                     </div>
 
@@ -171,23 +199,41 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Password</label>
+                        <label class="col-md-4 control-label">Account status</label>
                         <div class="col-md-6">
-                            <input type="password" class="form-control" name="password">
+                            <select class="form-control" name="status">
+                                @if (old('status') == 'enabled')
+                                    <option value="enabled" selected> Enabled </option>
+                                @else
+                                    <option value="enabled" selected> Enabled </option>
+                                @endif
+                                @if (old('status') == 'disabled' || $user->flags == \App\Constants::$disabled_flag)
+                                    <option value="disabled" selected> Disabled </option>
+                                @else
+                                    <option value="disabled"> Disabled </option>
+                                @endif
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Confirm Password</label>
+                        <label class="col-md-4 control-label">Position</label>
                         <div class="col-md-6">
-                            <input type="password" class="form-control" name="password_confirmation">
+                            <input type="text" class="form-control" name="position" value="{{ old('position', $user->position) }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Profile URL</label>
+                        <div class="col-md-6">
+                            <input type="url" class="form-control" name="profile_url" value="{{ old('profile_url', $user->profile_url) }}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <button type="submit" class="btn btn-primary">
-                                Create User
+                                Edit User
                             </button>
                         </div>
                     </div>
