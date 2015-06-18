@@ -138,7 +138,7 @@
                         </ul>
                     </div>
                 @endif
-               <form class="form-horizontal" role="form" method="POST" action="{{route('admincreateuser-post')}}">
+                <form class="form-horizontal" role="form" method="POST" action="{{route('admincreateuser-post')}}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <div class="form-group">
@@ -152,6 +152,27 @@
                         <label class="col-md-4 control-label">E-Mail Address</label>
                         <div class="col-md-6">
                             <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Alternative E-Mail Address</label>
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" name="alt_email" value="{{ old('alt_email') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Confirm Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="password_confirmation">
                         </div>
                     </div>
 
@@ -171,16 +192,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Password</label>
+                        <label class="col-md-4 control-label">Position</label>
                         <div class="col-md-6">
-                            <input type="password" class="form-control" name="password">
+                            <input type="text" class="form-control" name="position" value="{{ old('position') }}">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label">Confirm Password</label>
+                        <label class="col-md-4 control-label">Profile URL</label>
                         <div class="col-md-6">
-                            <input type="password" class="form-control" name="password_confirmation">
+                            <input type="url" class="form-control" name="profile_url" value="{{ old('profile_url') }}">
                         </div>
                     </div>
 
