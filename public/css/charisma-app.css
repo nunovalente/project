@@ -27,6 +27,17 @@ h6 {
     margin-right: 3em;
 }
 
+.not-resizable {
+    resize: none;
+}
+
+.text-area-fullscreen {
+    width: 100%;
+    height: 6em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
 .ch-container {
     padding: 0 15px;
 }

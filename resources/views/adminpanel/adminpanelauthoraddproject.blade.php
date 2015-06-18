@@ -128,88 +128,123 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-content row">
-                <form class="inline" method="GET" action="#">
-                    <div class="col-lg-3 col-sm-4">
-                        <p>Results order</p>
-                        <select class="form-control" name="authpanelorder" onchange="this.form.submit();">
-                            @if (Input::get('authpanelorder') == 'az')
-                                <option value="az" selected> A => Z </option>
-                            @else
-                                <option value="az"> A => Z </option>
-                            @endif
-                            @if (Input::get('authpanelorder') == 'za')
-                                <option value="za" selected> Z => A </option>
-                            @else
-                                <option value="za"> Z => A </option>
-                            @endif
-                        </select>
+                @if (Session::has('mailerror'))
+                    <div class="alert alert-danger margin-side">
+                        {{ Session::get('mailerror') }}
                     </div>
-                    <div class="col-lg-4 col-sm-4">
-                        <p>&nbsp</p>
-                        <div class="input-group">
-                            <input type="text" name="searchbox" class="form-control" value="{{ Input::get('searchbox') }}" placeholder="Search ...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                            </span>
+                @endif
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger margin-side">
+                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form class="form-horizontal" role="form" method="POST" action="#">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Name</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-4">
-                        <p>Search filters</p>
-                        <select class="form-control" name="authorpanelfilter">
-                            @if (Input::get('authorpanelfilter') == 'all')
-                                <option value="all" selected> All </option>
-                            @else
-                                <option value="all"> All </option>
-                            @endif
-                            @if (Input::get('authorpanelfilter') == 'projects')
-                                <option value="projects" selected> Projects </option>
-                            @else
-                                <option value="projects"> Projects </option>
-                            @endif
-                            @if (Input::get('authorpanelfilter') == 'media')
-                                <option value="media" selected> Media </option>
-                            @else
-                                <option value="media"> Media </option>
-                            @endif
-                            @if (Input::get('authorpanelfilter') == 'comments')
-                                <option value="comments" selected> Media </option>
-                            @else
-                                <option value="comments"> Media </option>
-                            @endif
-                        </select>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Responsible Person's email</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="responsibleemail" value="{{ old('responsibleemail', \Auth::user()->email) }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Acronym</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="acronym" value="{{ old('acronym') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Project Start Date (yyyy-mm-dd)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="startdate" placeholder="Example: 2015-06-01 Represents the 1st of June of 2015" value="{{ old('startdate') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Project Conclusion Date (yyyy-mm-dd)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="conclusiondate" placeholder="Example: 2015-06-01 Represents the 1st of June of 2015" value="{{ old('conclusion') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Project Type</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="type" value="{{ old('type') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Project Description</label>
+                        <div class="col-md-6">
+                            <textarea class="form-control not-resizable text-area-fullscreen" name="description" id="description" maxlength="3000" value="{{ old('description') }}" placeholder="Type the description here (3000chars max)"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Thematic Area</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="thematicarea" value="{{ old('thematicarea') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Keywords (Separate with a comma)</label>
+                        <div class="col-md-6">
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="keywords" maxlength="3000" placeholder="Separate each email with a comma ','" name="keywords" value="{{ old('keywords') }}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Used Software</label>
+                        <div class="col-md-6">
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="software" maxlength="3000" placeholder="Example: Mozilla/5.0 (iPhone; CPU iPhone....)" name="software" value="{{ old('software') }}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Used Hardware</label>
+                        <div class="col-md-6">
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="hardware" maxlength="3000" placeholder="Example: Intel i7, 8GB DDR3 RAM @1600MHz....." name="hardware" value="{{ old('hardware') }}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Observations</label>
+                        <div class="col-md-6">
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="observations" maxlength="3000" placeholder="Write any observation here" name="observations" value="{{ old('observations') }}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Team Elements' Emails (Separate with a comma)</label>
+                        <div class="col-md-6">
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="teamelements" maxlength="3000" placeholder="Separate each email with a comma ','" name="teamelements" value="{{ old('teammelements') }}"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                Create Project
+                            </button>
+                        </div>
                     </div>
                 </form>
-                <div class="col-lg-2 col-sm-4">
-                    <div class="btn-group" aria-label="Create New Project Button">
-                        <p>&nbsp</p>
-                        <a href="{{ route('authorcreateproject') }}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp&nbspCreate Project</button></a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_projects) && count($pending_projects) > 0)
-                        <p class="alert alert-info">Pending Projects</p>
-                        <table class="list-group full-width">
-                        @foreach ($pending_projects as $project)
-                            <tr class="list-group-item">
-                            <td>{{ $project->name }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $project-> name }} Author management buttons">
-                                    <td><form action="{{ route('pendingprojdelete', $project->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Delete Submission</button>
-                                        </form>
-                                    </td>
-                                </div>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="alert alert-success">You have 0 pending projects :)</p>
-                    @endif
-                    </table>
-                </div>
             </div>
         </div>
     </div>

@@ -61,3 +61,9 @@ Route::get('/contactrequest/{contacteeid}/{contacterid}/{projectid}', ['uses' =>
 Route::get('/contactrequest/{contacteeid}/{projectid}', ['uses' => 'MailController@sendAnonContactRequest', 'as' => 'anoncontactrequest']);
 
 Route::post('/submitcomment/{id}', ['uses' => 'ProjectBrowserController@submitComment', 'as' => 'submitcomment']);
+
+Route::post('/pendingprojdelete/{id}', ['uses' => 'AuthorController@deletePendingProject', 'as' => 'pendingprojdelete']);
+
+Route::get('/createproject', ['uses' => 'AuthorController@showCreateProject', 'as' => 'authorcreateproject']);
+
+Route::post('/createproject', ['uses' => 'AuthorController@submitCreatedProject', 'as' => 'authorcreateproject-post']);

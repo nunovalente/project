@@ -17,6 +17,6 @@ class Project extends Model {
 	}
 
 	public function institutions() {
-		return $this->hasMany('App\Institution');
+		return $this->belongsToMany('App\Institution');
 	}
 }
