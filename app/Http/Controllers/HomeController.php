@@ -2,6 +2,8 @@
 
 use App\User;
 use App\Constants;
+use App\Project;
+use App\Media;
 
 class HomeController extends Controller {
 
@@ -41,7 +43,13 @@ class HomeController extends Controller {
 		$user = User::findOrFail($user_id);
 		$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
 
-		return view('projects.index', compact('user', 'roles'));
+		$projectscarousel = Project::where('featured_until', '>', \Carbon\Carbon::now())->get();
+		$recentprojects = Project::orderBy('updated_at', 'desc')->take(3)->get();
+
+		$media = Media::all();
+		$users = User::all();
+
+		return view('projects.index', compact('user', 'users', 'roles', 'projectscarousel', 'recentprojects', 'media'));
 	}
 
 	public function disabledAccount() {

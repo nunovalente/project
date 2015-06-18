@@ -47,9 +47,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                <form class="navbar-form navbar-left" role="search">
+                <form class="navbar-form navbar-left" method="GET" action="{{ route('pbrowser.index') }}" role="search">
                   <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search Projects">
+                    <input type="text" name="searchbox" class="form-control" value="{{ Input::get('searchbox') }}" placeholder="Search Projects">
                   </div>
                   <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                 </form>
@@ -99,31 +99,45 @@
                 <div id="carosel-landing-page" class="carousel slide carousel-border" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        <li data-target="#carosel-landing-page" data-slide-to="0" class="active"></li>
-                        <li data-target="#carosel-landing-page" data-slide-to="1"></li>
-                        <li data-target="#carosel-landing-page" data-slide-to="2"></li>
+                        <?php $c_count = 0; ?>
+                        @foreach ($projectscarousel as $project)
+                            <?php $p_count = 0; ?>
+                            @foreach ($media as $m)
+                                @if ($m->project_id == $project->id)
+                                    <?php $p_count++; ?>
+                                    @if ($p_count <= 3)
+                                        <?php $c_count++; ?>
+                                        <li data-target="#carosel-landing-page" data-slide-to="{{ $c_count - 1 }}"></li>
+                                    @endif
+                                @endif
+                            @endforeach
+                        @endforeach
                     </ol>
     
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                        <img src="img/img1.png" alt="altimg1">
-                            <div class="carousel-caption">
-                            ...
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="img/img2.png" alt="altimg2">
-                            <div class="carousel-caption">
-                            ...
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="img/img3.png" alt="altimg2">
-                            <div class="carousel-caption">
-                            ...
-                            </div>
-                        </div>
+                        <?php $first_proj = true; ?>
+                        @foreach ($projectscarousel as $project)
+                            <?php $p_count = 0; ?>
+                            @foreach ($media as $m)
+                                @if ($m->project_id == $project->id)
+                                    <?php $p_count++; ?>
+                                    @if ($p_count <= 3)
+                                        @if ($first_proj == true)
+                                            <div class="item active">
+                                            <?php $first_proj = false ?>
+                                        @else
+                                            <div class="item">
+                                        @endif
+                                            <a href="{{ route('pbrowser.show', $project->id) }}"><img class="carouselfit" src="{{ route('download', [$m->id]) }}" alt="{{ $project->name }}"></a>
+                                            <div class="carousel-caption">
+                                                {{ $project -> name }}
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endif
+                            @endforeach
+                        @endforeach
                     </div>
                     <!-- Controls -->
                     <a class="left carousel-control" href="#carosel-landing-page" role="button" data-slide="prev">
@@ -156,18 +170,16 @@
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                 <div class="list-group list-group-border space-top">
-                    <a href="#recentprojects" class="list-group-item">
-                        <h4>Titulo do projeto</h4>
-                        <p><i>Author:</i></p>
-                    </a>
-                    <a href="#recentprojects" class="list-group-item">
-                        <h4>Titulo do projeto</h4>
-                        <p><i>Author:</i></p>
-                    </a>
-                    <a href="#recentprojects" class="list-group-item">
-                        <h4>Titulo do projeto</h4>
-                        <p><i>Author:</i></p>
-                    </a>
+                    @foreach ($recentprojects as $project)
+                        <a href="{{ route('pbrowser.show', $project->id) }}" class="list-group-item">
+                        <h4>{{ $project->name }}</h4>
+                        <p><i>@foreach ($users as $user)
+                                @if ($user->id == $project->created_by)
+                                    {{$user->name }}
+                                @endif
+                              @endforeach</i></p>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>

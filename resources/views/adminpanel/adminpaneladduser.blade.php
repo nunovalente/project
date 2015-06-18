@@ -138,7 +138,7 @@
                         </ul>
                     </div>
                 @endif
-                <form class="form-horizontal" role="form" method="POST" action="{{route('admincreateuser-post')}}" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" method="POST" action="{{route('admincreateuser-post')}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <div class="form-group">

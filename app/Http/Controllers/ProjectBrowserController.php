@@ -46,6 +46,15 @@ class ProjectBrowserController extends Controller {
 			
 		}
 		else{
+			
+			if (!isset($filter)) {
+				$filter = 'name';
+			}
+
+			if (!isset($sort)) {
+				$sort = 'titleab';
+			}
+
 			switch ($filter) {
 				case 'name':
 					$projects = $this->sortWherePaginate('name', 'LIKE', "%$term%", 4, $sort);
