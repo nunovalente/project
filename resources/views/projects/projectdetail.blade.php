@@ -128,7 +128,18 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Do you wish to be contacted by {{ $project_creator }}?</h2>
-                <h4 class="space-text space-top"><a href="{{ route('contactrequest', [$project_creator_id, Auth::user()->id, $project->id]) }}">Click here</a> now to submit a contact request.</h4>
+                @if (!Auth::guest())
+                    <h4 class="space-text space-top"><a href="{{ route('contactrequest', [$project_creator_id, Auth::user()->id, $project->id]) }}">Click here</a> now to submit a contact request.</h4>
+                @else
+                    <form class="space-text space-top alert alert-info" action="{{ route('anoncontactrequest', [$project_creator_id, $project->id]) }}" method="GET">
+                        <h4>Since you're viewing this page as a guest, you'll need to tell us your e-mail adress</h4>
+                        <input type="email" name="guestemail" placeholder="your@email.example">
+                        <br><br>
+                        <button type="submit" class="btn btn-default">
+                            Submit Contact Request
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
 
@@ -137,9 +148,9 @@
         <!-- Comment box -->
         <div class="row">
             <div class="col-lg-12 black-text">
-                <form action="" method="">
+                <form action="{{ route('submitcomment', $project->id) }}" method="POST">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <textarea class="not-resizable text-area-fullscreen" name="projcomment" id="projcomment" maxlength="500" placeholder="Type a comment here (500chars max)"></textarea>
+                    <textarea class="not-resizable text-area-fullscreen" name="comment" id="comment" maxlength="500" placeholder="Type a comment here (500chars max)"></textarea>
                     <br><br>
                     <button type="submit" class="btn btn-default">
                     Submit Comment

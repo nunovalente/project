@@ -25,4 +25,18 @@ class MailController extends Controller {
 		return \Redirect::back()->with('message', 'Contact request submitted sucessfully');
 	}
 
+	public function sendAnonContactRequest(Request $request, $contacteeid, $projectid) {
+		$user_contactee = User::findOrFail($contacteeid);
+		$user_contacter_email = $request->input('email');
+
+		$project = Project::findOrFail($projectid);
+
+		Mail::send('emails.anoncontactrequest', ['projectname' => $project->name, 'contacteename' => $user_contactee->name, 'contacteremail' => $user_contacter_email],
+			function ($m) use ($user_contactee, $project) {
+				$m->to($user_contactee->email, $user_contactee->name)->subject('GUEST Contact Request: ' . $project->name);
+			});
+
+		return \Redirect::back()->with('message', 'Contact request submitted sucessfully');
+	}
+
 }

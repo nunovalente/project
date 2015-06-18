@@ -15,4 +15,9 @@ class Constants extends Model {
 
 	public static $disabled_flag = 1;
 	public static $no_flag = 0;
+
+	/* STATES */
+
+	public static $approved_state = 1;
+	public static $notapproved_state = 0;
 }

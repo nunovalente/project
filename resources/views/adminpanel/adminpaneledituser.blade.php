@@ -149,6 +149,34 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="col-md-4 control-label">Role</label>
+                        <div class="col-md-6">
+                            <select class="form-control" name="role">
+                                @if(old('role', $user->role) == \App\Constants::$no_role)
+                                    <option value="{{ \App\Constants::$no_role }}" selected> Basic user </option>
+                                @else
+                                    <option value="{{ \App\Constants::$no_role }}"> Basic user </option>
+                                @endif
+                                @if(old('role', $user->role) == \App\Constants::$author_role)
+                                    <option value="{{ \App\Constants::$author_role }}" selected> Author </option>
+                                @else
+                                    <option value="{{ \App\Constants::$author_role }}"> Author </option>
+                                @endif
+                                @if(old('role', $user->role) == \App\Constants::$editor_role)
+                                    <option value="{{ \App\Constants::$editor_role }}" selected> Editor </option>
+                                @else
+                                    <option value="{{ \App\Constants::$editor_role }}"> Editor </option>
+                                @endif
+                                @if(old('role', $user->role) == \App\Constants::$admin_role)
+                                    <option value="{{ \App\Constants::$admin_role }}" selected> Administrator </option>
+                                @else
+                                    <option value="{{ \App\Constants::$admin_role }}"> Administrator </option>
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-md-4 control-label">Profile Picture</label>
                         <div class="col-md-6">
                             <input type="file" class="form-control" name="profile_pic">

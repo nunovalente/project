@@ -55,3 +55,7 @@ Route::get('/edituser/{id}', ['uses' => 'AdminController@showEditUser', 'as' => 
 Route::post('/edituser/{id}', ['uses' => 'AdminController@edit', 'as' => 'adminedituser-post']);
 
 Route::get('/contactrequest/{contacteeid}/{contacterid}/{projectid}', ['uses' => 'MailController@sendContactRequest', 'as' => 'contactrequest']);
+
+Route::get('/contactrequest/{contacteeid}/{projectid}', ['uses' => 'MailController@sendAnonContactRequest', 'as' => 'anoncontactrequest']);
+
+Route::post('/submitcomment/{id}', ['uses' => 'ProjectBrowserController@submitComment', 'as' => 'submitcomment']);

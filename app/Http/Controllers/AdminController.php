@@ -103,7 +103,8 @@ class AdminController extends Controller {
 				  'institution' => 'required|exists:institutions,id',
 				  'position' => 'required|max:255',
 				  'profile_url' => 'max:255',
-				  'status' => 'required'];
+				  'status' => 'required',
+				  'role' => 'required'];
 
 		if ($user->email != $request->get('email')) {
 			$rules['email'] .= '|unique:users';
@@ -127,6 +128,7 @@ class AdminController extends Controller {
 		$user->institution_id = $request->input('institution');
 		$user->position = $request->input('position');
 		$user->profile_url = $request->input('profile_url');
+		$user->role = $request->input('role');
 		if ($request->input('password') != "") {
 			$user->password = Hash::make($request->input('password'));
 		}

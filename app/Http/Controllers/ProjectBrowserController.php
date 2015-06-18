@@ -6,6 +6,7 @@ use App\Project;
 use App\Institution;
 use App\User;
 use App\Constants;
+use App\Comment;
 
 use Illuminate\Http\Request;
 
@@ -186,6 +187,51 @@ class ProjectBrowserController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+
+	public function submitComment(Request $request, $id) {
+		$project = Project::findOrFail($id);
+		$text = $request->input('comment');
+		$msg;
+
+		$user = NULL;
+
+		if (! \Auth::guest()) {
+			$user = \Auth::user();
+		}
+
+		if (!isset($user)) {
+			/*UN-AUTHENTICATED*/
+			$comment = new Comment;
+			$comment->comment = $text;
+			$comment->project_id = $project->id;
+			$comment->state = Constants::$notapproved_state;
+			$comment->save();
+
+			$msg = 'Comment submitted successfully but pending approval';
+		}
+		else {
+			/* AUTHENTICATED */
+			$comment = new Comment;
+			$comment->comment = $text;
+			$comment->project_id = $project->id;
+			$comment->user_name = $user->name;
+			$comment->user_id = $user->id;
+
+			if ($user->role == Constants::$editor_role || $user->role == Constants::$admin_role) {
+				$comment->approved_by = $user->id;
+				$comment->state = Constants::$approved_state;
+				$msg = 'Comment submitted succesfully';
+			} else {
+				$comment->state = Constants::$notapproved_state;
+				$msg = 'Comment submitted successfully but pending approval';
+			}
+
+			$comment->save();
+		}		
+
+		return \Redirect::back()->with('message', $msg);
+
 	}
 
 	private function sortPaginate($perPageAmmount, $sortKey) {
