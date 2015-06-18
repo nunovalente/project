@@ -125,6 +125,9 @@ class AdminController extends Controller {
 		$user->name = $request->input('name');
 		$user->email = $request->input('email');
 		$user->alt_email = $request->input('alt_email');
+		if ($user->alt_email == '') {
+			$user->alt_email = NULL;
+		}
 		$user->institution_id = $request->input('institution');
 		$user->position = $request->input('position');
 		$user->profile_url = $request->input('profile_url');

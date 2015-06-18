@@ -152,11 +152,6 @@
                         <label class="col-md-4 control-label">Role</label>
                         <div class="col-md-6">
                             <select class="form-control" name="role">
-                                @if(old('role', $user->role) == \App\Constants::$no_role)
-                                    <option value="{{ \App\Constants::$no_role }}" selected> Basic user </option>
-                                @else
-                                    <option value="{{ \App\Constants::$no_role }}"> Basic user </option>
-                                @endif
                                 @if(old('role', $user->role) == \App\Constants::$author_role)
                                     <option value="{{ \App\Constants::$author_role }}" selected> Author </option>
                                 @else

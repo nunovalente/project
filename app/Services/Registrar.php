@@ -38,6 +38,9 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
+		if ($data['alt_email'] == '') {
+			$data['alt_email'] = NULL;
+		}
 		return User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
@@ -46,6 +49,7 @@ class Registrar implements RegistrarContract {
 			'alt_email' => $data['alt_email'],
 			'position' => $data['position'],
 			'profile_url' => $data['profile_url'],
+			'role' => \App\Constants::$author_role,
 		]);
 	}
 
