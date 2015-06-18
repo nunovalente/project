@@ -34,6 +34,8 @@ Route::get('download/{id}', ['uses' => 'MediaController@download', 'as' => 'down
 
 Route::get('adminpanel', ['uses' => 'AdminController@showAdministratorPanel', 'as' => 'adminpanel']);
 
+Route::get('authorpanel', ['uses' => 'AuthorController@showAuthorPanel', 'as' => 'authorpanel']);
+
 Route::get('adminpanel/reset/{id}', ['uses' => 'AdminController@showPasswordReset', 'as' => 'adminpanelreset']);
 
 Route::get('admincreateuser', ['uses' => 'AdminController@showCreateUser', 'as' => 'admincreateuser']);

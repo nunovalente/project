@@ -90,11 +90,11 @@
 
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
-                        <li class="nav-header">Admin Dashboard</li>
-                        <li><a class="ajax-link" href="{{ route('adminpanel') }}"><i
-                                    class="glyphicon glyphicon-edit"></i><span> User Management</span></a></li>
-                        <li><a class="ajax-link" href="{{ route('admincreateuser') }}"><i
-                                    class="glyphicon glyphicon-plus"></i><span> Create User</span></a></li>            
+                        <li class="nav-header">Author Dashboard</li>
+                        <li><a class="ajax-link" href="{{ route('authorpanel') }}"><i
+                                    class="glyphicon glyphicon-edit"></i><span> Pending Content</span></a></li>
+                        <li><a class="ajax-link" href="#"><i
+                                    class="glyphicon glyphicon-plus"></i><span> Refused Content</span></a></li>            
                     </ul>
                 </div>
             </div>
@@ -119,7 +119,7 @@
             <a href="{{ route('authlanding') }}">IPL Project Browser</a>
         </li>
         <li>
-            <a href="{{ route('adminpanel') }}">User Management</a>
+            <a href="{{ route('authorpanel') }}">Author Dashboard</a>
         </li>
     </ul>
 </div>
@@ -128,88 +128,21 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-content row">
-                <form class="inline" method="GET" action="{{ route('adminpanel') }}">
-                    <div class="col-lg-3 col-sm-4">
-                        <p>Results order</p>
-                        <select class="form-control" name="adminpanelorder" onchange="this.form.submit();">
-                            @if (Input::get('admingpanelorder') == 'az')
-                                <option value="az" selected> A => Z </option>
-                            @else
-                                <option value="az"> A => Z </option>
-                            @endif
-                            @if (Input::get('adminpanelorder') == 'za')
-                                <option value="za" selected> Z => A </option>
-                            @else
-                                <option value="za"> Z => A </option>
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-lg-4 col-sm-4">
-                        <p>&nbsp</p>
-                        <div class="input-group">
-                            <input type="text" name="searchbox" class="form-control" value="{{ Input::get('searchbox') }}" placeholder="Search user...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                            </span>
-                        </div>
-                    </div>
-                </form>
-                <div class="col-lg-2 col-sm-4">
-                    <div class="btn-group" aria-label="Create New User Button">
-                        <p>&nbsp</p>
-                        <a href="{{ route('admincreateuser') }}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp&nbspCreate User</button></a>
-                    </div>
-                </div>
-            </div>
-            <div class="box-content row">
                 <div class="col-lg-12 col-md-12">
-                    <table class="list-group full-width">
-                        @if(isset($users))
-                            @foreach ($users as $user)
+                    @if(isset($pending_projects) && count($pending_projects) > 0)
+                        <p class="alert alert-info">Pending Projects</p>
+                        <table class="list-group full-width">
+                        @foreach ($pending_projects as $project)
                             <tr class="list-group-item">
-                            <td>{{ $user->name }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $user-> name }} management buttons">
-    
-                                    <td><form action="{{ route('edituser', $user->id) }}" method="get">
-                                        <button type="submit" class="btn btn-primary">Edit</button>
-                                        </form>
-                                    </td>
-                                    
-                                    <td><form action="{{ route('adminpanelreset', $user->id) }}" method="get">
-                                            <button type="submit" class="btn btn-warning">Password Reset</button>
-                                        </form>
-                                    </td>
-                                    
-                                    <td><form action="{{ route('admindeleteuser', $user->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button type="submit" class="btn btn-danger">
-                                            Delete
-                                            </button>
-                                    </form></td>
-    
-                                    <td><form action="{{ route('userdisableenable', $user->id) }}" method="get">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button type="submit" class="btn btn-info">
-                                            @if ($user->flags == App\Constants::$disabled_flag)
-                                                Enable
-                                            @else
-                                                Disable
-                                            @endif
-                                            </button>
-                                    </form></td>
-                                </div>
-                                </tr>
-                            @endforeach
-                        @endif
+                            <td>{{ $project->name }}</td>
+                                
+                            </tr>
+                        @endforeach
+                    @else
+                        <p class="alert alert-success">You have 0 pending projects :)</p>
+                    @endif
                     </table>
                 </div>
-
-            </div>
-            <div class="box-content row text-center">
-                <div class="col-lg-12 col-md-12">
-                    {!! $users->appends(Input::all())->render() !!}
-                </div>
-
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
 use Closure;
 use App\Constants;
 
-class RoleAdminMiddleware {
+class RoleAuthorMiddleware {
 
 	/**
 	 * Handle an incoming request.
@@ -13,15 +13,16 @@ class RoleAdminMiddleware {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next)
-	{	
+	{
 		if (\Auth::guest()) {
 			return redirect()->route('guestlanding');
 		}
-
-		if (!($request->user()->role == Constants::$admin_role)) {
+		
+		if (!($request->user()->role == Constants::$author_role)) {
 			return redirect()->route('authlanding');
 		}
 		
 		return $next($request);
 	}
+
 }

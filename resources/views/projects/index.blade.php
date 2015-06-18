@@ -33,7 +33,9 @@
                 <ul class="nav navbar-nav navbar-left">
                     @if (isset($user) && isset($roles))
                         @if ($user->role == $roles[0])
-                            <li class="bg-danger"><a href="{{ route('adminpanel') }}">User Management</a></li>
+                            <li class="bg-danger"><a href="{{ route('adminpanel') }}">Admin Dashboard</a></li>
+                        @elseif($user->role == $roles[2])
+                            <li class="bg-danger"><a href="{{ route('authorpanel') }}">Author Dashboard</a></li>
                         @endif
                     @endif
                     <li>

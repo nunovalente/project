@@ -32,6 +32,9 @@ class HomeController extends Controller {
 		if ($role == Constants::$admin_role) {
 			return redirect()->route('adminpanel');
 		}
+		else if ($role == Constants::$author_role) {
+			return redirect()->route('authorpanel');
+		}
 
 		$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
 		return view('projects.index', compact('user', 'roles'));
