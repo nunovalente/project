@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class ProjectGalleryController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('role_disabled');
+	}
+
 	public function showPhotos ($id)
 	{
 		$proj_name = Project::findOrFail($id)->name;
