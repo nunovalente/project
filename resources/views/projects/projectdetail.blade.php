@@ -118,6 +118,32 @@
                         <li>{{ $inst->name }}</li>
                     @endforeach
                 </ul>
+                <h3 class="pretty-text">Technical facts</h3>
+                <ul>
+                    @if (isset($project->acronym))
+                        <li> Project Acronym: {{ $project-> acronym }} </li>
+                    @endif
+                    <li>Project team elements: </li>
+                    @foreach ($project->users as $user)
+                        {{ $user->name }}<br>
+                    @endforeach
+                    <li> Starting date: {{ $project->started_at }} </li>
+                    @if (isset($project->finished_at))
+                        <li> Conclusion date: {{ $project->finished_at }} </li>
+                    @endif
+                    @if (isset($project->keywords))
+                        <li> Keywords: {{ $project->keywords }} </li>
+                    @endif
+                    @if (isset($project->used_software))
+                        <li> Used software: {{ $project->used_software }} </li>
+                    @endif
+                    @if (isset($project->used_hardware))
+                        <li> Used hardware: {{ $project->used_hardware }} </li>
+                    @endif
+                    @if (isset($project->observations))
+                        <li> Observations: {{ $project->observations }} </li>
+                    @endif
+                </ul>
             </div>
 
         </div>
