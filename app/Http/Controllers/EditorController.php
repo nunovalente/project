@@ -17,7 +17,8 @@ class EditorController extends Controller {
 		$this->middleware('role_editor');
 	}
 
-	public function showEditorPanel() {
+	public function showEditorPanel()
+	{
 
 		$pending_comments = Comment::where('state', '=', Constants::$notapproved_state)->get();
 		$pending_media = Media::where('state', '=', Constants::$notapproved_state)->get();
@@ -26,7 +27,8 @@ class EditorController extends Controller {
 		return view('adminpanel.adminpaneleditorpending', compact('pending_projects', 'pending_media', 'pending_comments'));
 	}
 
-	public function showEditorPanelApproved() {
+	public function showEditorPanelApproved()
+	{
 		$approved_comments = Comment::where('state', '=', Constants::$approved_state)->get();
 		$approved_media = Media::where('state', '=', Constants::$approved_state)->get();
 		$approved_projects = Project::where('state', '=', Constants::$approved_state)->get();
@@ -34,7 +36,8 @@ class EditorController extends Controller {
 		return view('adminpanel.adminpaneleditorapproved', compact('approved_projects', 'approved_media', 'approved_comments'));
 	}
 
-	public function showEditorPanelRefused() {
+	public function showEditorPanelRefused()
+	{
 		$refused_comments = Comment::where('state', '=', Constants::$refused_state)->get();
 		$refused_media = Media::where('state', '=', Constants::$refused_state)->get();
 		$refused_projects = Project::where('state', '=', Constants::$refused_state)->get();
@@ -42,42 +45,49 @@ class EditorController extends Controller {
 		return view('adminpanel.adminpaneleditorrefused', compact('refused_projects', 'refused_media', 'refused_comments'));
 	}
 
-	public function showApproveProject($id) {
+	public function showApproveProject($id)
+	{
 		$project = Project::findOrFail($id);
 
 		return view('adminpanel.adminpaneleditorapproveproject', compact('project'));
 	}
 
-	public function showRefuseProject($id) {
+	public function showRefuseProject($id)
+	{
 		$project = Project::findOrFail($id);
 
 		return view('adminpanel.adminpaneleditorrefuseproject', compact('project'));
 	}
 
-	public function showRefuseMedia($id) {
+	public function showRefuseMedia($id)
+	{
 		$media = Media::findOrFail($id);
 
 		return view('adminpanel.adminpaneleditorrefusemedia', compact('media'));
 	}
 
-	public function showRefuseComment($id) {
+	public function showRefuseComment($id)
+	{
 		$comment = Comment::findOrFail($id);
 
 		return view('adminpanel.adminpaneleditorrefusecomment', compact('comment'));
 	}
 
-	public function showEditProject($id) {
+	public function showEditProject($id)
+	{
 		$project = Project::findOrFail($id);
 		$mails = array();
 
-		foreach ($project->users as $u) {
+		foreach ($project->users as $u)
+		{
 			$mails[] = $u->email;
 		}
 
 		return view('adminpanel.adminpaneleditoreditproject', compact('project', 'mails'));
 	}
 
-	public function removeComment($id) {
+	public function removeComment($id)
+	{
 		$comment = Comment::findOrFail($id);
 
 		$comment->delete();
@@ -85,25 +95,30 @@ class EditorController extends Controller {
 		return \Redirect::back();
 	}
 
-	public function removeProject($id) {
+	public function removeProject($id)
+	{
 		$project = Project::findOrFail($id);
 
 		$comments = Comment::where('project_id', '=', $project->id)->get();
 		$media = Media::where('project_id', '=', $project->id)->get();
 
-		foreach ($comments as $c) {
+		foreach ($comments as $c)
+		{
 			$c->delete();
 		}
 
-		foreach ($media as $m) {
+		foreach ($media as $m)
+		{
 			$m->delete();
 		}
 
-		foreach ($project->institutions as $inst) {
+		foreach ($project->institutions as $inst)
+		{
 			$project->institutions()->detach($inst->id);
 		}
 
-		foreach ($project->users as $user) {
+		foreach ($project->users as $user)
+		{
 			$project->users()->detach($user->id);
 		}
 
@@ -112,7 +127,8 @@ class EditorController extends Controller {
 		return \Redirect::back();
 	}
 
-	public function removeMedia($id) {
+	public function removeMedia($id)
+	{
 		$media = Media::findOrFail($id);
 
 		$media->delete();
@@ -120,7 +136,8 @@ class EditorController extends Controller {
 		return \Redirect::back();
 	}
 
-	public function editProject(Request $request, $id) {
+	public function editProject(Request $request, $id)
+	{
 		$project = Project::findOrFail($id);
 		$name = $request->input('name');
 		$resp_email = $request->input('responsibleemail');
@@ -141,23 +158,28 @@ class EditorController extends Controller {
 		$indicated_hardware = false;
 		$indicated_observations = false;
 
-		if (isset($used_software) && $used_software != '') {
+		if (isset($used_software) && $used_software != '')
+		{
 			$indicated_software = true;
 		}
 
-		if (isset($used_hardware) && $used_hardware != '') {
+		if (isset($used_hardware) && $used_hardware != '')
+		{
 			$indicated_hardware = true;
 		}
 
-		if (isset($observations) && $observations != '') {
+		if (isset($observations) && $observations != '')
+		{
 			$indicated_observations = true;
 		}
 
-		if (isset($keywords) && $keywords != '') {
+		if (isset($keywords) && $keywords != '')
+		{
 			$indicated_keywords = true;
 		}
 
-		if (isset($elements_emails_string) && $elements_emails_string != '') {
+		if (isset($elements_emails_string) && $elements_emails_string != '')
+		{
 			$elements_emails_string = str_replace(' ', '', $elements_emails_string);
 			$elements_emails_array = explode(',', $elements_emails_string);
 	
@@ -165,21 +187,27 @@ class EditorController extends Controller {
 			$mail_user_ids = array();
 
 	
-			foreach ($elements_emails_array as $elem_email) {
+			foreach ($elements_emails_array as $elem_email)
+			{
 				$matched_users = User::where('email', '=', $elem_email)->get();
 	
-				foreach ($matched_users as $m_u) {
+				foreach ($matched_users as $m_u)
+				{
 					$mails[] = $m_u->email;
 					$mail_user_ids[] = $m_u->id;
 				}
 	
 			}
 	
-			if (!isset($mails) || count($mails) != count($elements_emails_array)) {
-				if (isset($mails)) {
+			if (!isset($mails) || count($mails) != count($elements_emails_array))
+			{
+				if (isset($mails))
+				{
 					$wrong_emails = "";
-					foreach ($elements_emails_array as $elem_email) {
-						if (!in_array($elem_email, $mails)) {
+					foreach ($elements_emails_array as $elem_email)
+					{
+						if (!in_array($elem_email, $mails))
+						{
 							$wrong_emails .= ($elem_email . ', ');
 						}
 					}
@@ -202,7 +230,8 @@ class EditorController extends Controller {
 
 		$validator = \Validator::make($request->all(), $rules);
 
-		if ($validator->fails()) {
+		if ($validator->fails())
+		{
 			$this->throwValidationException(
 				$request, $validator
 			);
@@ -210,8 +239,10 @@ class EditorController extends Controller {
 
 		$users = User::all();
 		$user = NULL;
-		foreach ($users as $u) {
-			if ($u->email == $resp_email) {
+		foreach ($users as $u)
+		{
+			if ($u->email == $resp_email)
+			{
 				$user = $u;
 			}
 		}
@@ -225,42 +256,52 @@ class EditorController extends Controller {
 		$project->theme = $thematic_area;
 		$project->started_at = $startdate;
 
-		foreach ($project->users as $u_aux) {
+		foreach ($project->users as $u_aux)
+		{
 			$project->users()->detach($u_aux->id);
 		}
 
-		foreach ($project->institutions as $i_aux) {
+		foreach ($project->institutions as $i_aux)
+		{
 			$project->institutions()->detach($i_aux->id);
 		}
 
-		if ($indicated_keywords == true) {
+		if ($indicated_keywords == true)
+		{
 			$project->keywords = $keywords;
 		}
 
-		if ($indicated_observations == true) {
+		if ($indicated_observations == true)
+		{
 			$project->observations = $observations;
 		}
 
-		if ($indicated_software == true) {
+		if ($indicated_software == true)
+		{
 			$project->used_software = $used_software;
 		}
 
-		if ($indicated_hardware == true) {
+		if ($indicated_hardware == true)
+		{
 			$project->used_hardware = $used_hardware;
 		}
 
-		if (isset($conclusiondate) && $conclusiondate != '') {
+		if (isset($conclusiondate) && $conclusiondate != '')
+		{
 			$project->finished_at = $conclusiondate;
 		}
 
 		$project->save();
 
-		if ($indicated_elements == true) {
+		if ($indicated_elements == true)
+		{
 			$project->users()->attach($mail_user_ids);
 			$all_users = User::all();
 			$existent_ids = array();
-			foreach ($all_users as $u) {
-				if (in_array($u->id, $mail_user_ids) && !in_array($u->institution_id, $existent_ids)) {
+			foreach ($all_users as $u)
+			{
+				if (in_array($u->id, $mail_user_ids) && !in_array($u->institution_id, $existent_ids))
+				{
 					$project->institutions()->attach($u->institution_id);
 					$existent_ids[] = $u->institution_id;
 				}
@@ -270,7 +311,8 @@ class EditorController extends Controller {
 		return redirect()->route('editorpanelapproved');
 	}
 
-	public function approveComment($id) {
+	public function approveComment($id)
+	{
 		$comment = Comment::findOrFail($id);
 
 		$comment->state = Constants::$approved_state;
@@ -280,7 +322,8 @@ class EditorController extends Controller {
 		return redirect()->route('editorpanel');
 	}
 
-	public function refuseComment(Request $request, $id) {
+	public function refuseComment(Request $request, $id)
+	{
 		$c = Comment::findOrFail($id);
 		$reason = $request->input('reason');
 
@@ -288,7 +331,8 @@ class EditorController extends Controller {
 
 		$validator = \Validator::make($request->all(), $rules);
 
-		if ($validator->fails()) {
+		if ($validator->fails())
+		{
 			$this->throwValidationException(
 				$request, $validator
 			);
@@ -296,7 +340,8 @@ class EditorController extends Controller {
 
 		$c->state = Constants::$refused_state;
 
-		if (isset($reason) && $reason != '') {
+		if (isset($reason) && $reason != '')
+		{
 			$c->refusal_msg = $reason;
 		}
 
@@ -305,7 +350,8 @@ class EditorController extends Controller {
 		return redirect()->route('editorpanel');
 	}
 
-	public function refuseMedia(Request $request, $id) {
+	public function refuseMedia(Request $request, $id)
+	{
 		$m = Media::findOrFail($id);
 		$reason = $request->input('reason');
 
@@ -313,7 +359,8 @@ class EditorController extends Controller {
 
 		$validator = \Validator::make($request->all(), $rules);
 
-		if ($validator->fails()) {
+		if ($validator->fails())
+		{
 			$this->throwValidationException(
 				$request, $validator
 			);
@@ -321,7 +368,8 @@ class EditorController extends Controller {
 
 		$m->state = Constants::$refused_state;
 
-		if (isset($reason) && $reason != '') {
+		if (isset($reason) && $reason != '')
+		{
 			$m->refusal_msg = $reason;
 		}
 
@@ -330,7 +378,8 @@ class EditorController extends Controller {
 		return redirect()->route('editorpanel');
 	}
 
-	public function approveMedia($id) {
+	public function approveMedia($id)
+	{
 		$m = Media::findOrFail($id);
 
 		$m->state = Constants::$approved_state;
@@ -340,7 +389,8 @@ class EditorController extends Controller {
 		return redirect()->route('editorpanel');
 	}
 
-	public function refuseProject(Request $request, $id) {
+	public function refuseProject(Request $request, $id)
+	{
 		$reason = $request->input('reason');
 		$project = Project::findOrFail($id);
 
@@ -348,7 +398,8 @@ class EditorController extends Controller {
 
 		$validator = \Validator::make($request->all(), $rules);
 
-		if ($validator->fails()) {
+		if ($validator->fails())
+		{
 			$this->throwValidationException(
 				$request, $validator
 			);
@@ -356,7 +407,8 @@ class EditorController extends Controller {
 
 		$project->state = Constants::$refused_state;
 
-		if (isset($reason) && $reason != '') {
+		if (isset($reason) && $reason != '')
+		{
 			$project->refusal_msg = $reason;
 		}
 
@@ -366,10 +418,12 @@ class EditorController extends Controller {
 
 	}
 
-	public function approveProject($id) {
+	public function approveProject($id)
+	{
 		$project = Project::findOrFail($id);
 
-		foreach ($project->medias as $m) {
+		foreach ($project->medias as $m)
+		{
 			$m->state = Constants::$approved_state;
 			$m->approved_by = \Auth::user()->id;
 			$m->save();

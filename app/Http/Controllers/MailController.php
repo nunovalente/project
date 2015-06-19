@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 
 class MailController extends Controller {
 
-	public function sendContactRequest($contacteeid, $contacterid, $projectid) {
+	public function sendContactRequest($contacteeid, $contacterid, $projectid)
+	{
 		$user_contactee = User::findOrFail($contacteeid);
 		$user_contacter = User::findOrFail($contacterid);
 
@@ -25,7 +26,8 @@ class MailController extends Controller {
 		return \Redirect::back()->with('message', 'Contact request submitted sucessfully');
 	}
 
-	public function sendAnonContactRequest(Request $request, $contacteeid, $projectid) {
+	public function sendAnonContactRequest(Request $request, $contacteeid, $projectid)
+	{
 		$user_contactee = User::findOrFail($contacteeid);
 		$user_contacter_email = $request->input('email');
 

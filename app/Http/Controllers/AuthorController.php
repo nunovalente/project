@@ -18,7 +18,8 @@ class AuthorController extends Controller {
 		$this->middleware('role_author');
 	}
 
-	public function showAuthorPanel(Request $request) {
+	public function showAuthorPanel(Request $request)
+	{
 		$user = \Auth::user();
 
 		$pending_comments = Comment::where('state', '=', Constants::$notapproved_state)->where('user_id', '=', $user->id)->get();
@@ -28,7 +29,8 @@ class AuthorController extends Controller {
 		return view('adminpanel.adminpanelauthorpending', compact('pending_projects', 'pending_media', 'pending_comments'));
 	}
 
-	public function showComments() {
+	public function showComments()
+	{
 		$user = \Auth::user();
 		$myProjs = array();
 
@@ -43,7 +45,8 @@ class AuthorController extends Controller {
 		return view('adminpanel.adminpanelauthorcomments', compact('approved_comments', 'approved_projs'));
 	}
 
-	public function showAuthorRefusedPanel() {
+	public function showAuthorRefusedPanel()
+	{
 		$user = \Auth::user();
 
 		$refused_comments = Comment::where('state', '=', Constants::$refused_state)->where('user_id', '=', $user->id)->get();
@@ -53,18 +56,21 @@ class AuthorController extends Controller {
 		return view('adminpanel.adminpanelauthorrefused', compact('refused_projects', 'refused_media', 'refused_comments'));
 	}
 
-	public function showCreateProject() {
+	public function showCreateProject()
+	{
 
 		return view('adminpanel.adminpanelauthoraddproject');
 	}
 
-	public function showSubmitMediaPendingProject($id) {
+	public function showSubmitMediaPendingProject($id)
+	{
 		$project = Project::findOrFail($id);
 
 		return view('adminpanel.adminpanelauthorsubmitmediapendingproject', compact('project'));
 	}
 
-	public function submitMediaPendingProject(Request $request, $id) {
+	public function submitMediaPendingProject(Request $request, $id)
+	{
 		$project = Project::findOrFail($id);
 		$media = new Media;
 		$media_title = $request->input('mediatitle');
@@ -74,7 +80,8 @@ class AuthorController extends Controller {
 
 		$validator = \Validator::make($request->all(), $rules);
 
-		if ($validator->fails()) {
+		if ($validator->fails())
+		{
 			$this->throwValidationException(
 				$request, $validator
 			);
@@ -82,7 +89,8 @@ class AuthorController extends Controller {
 
 		$file = NULL;
 
-		if ($request->hasFile('media') && $request->file('media')->isValid()) {
+		if ($request->hasFile('media') && $request->file('media')->isValid())
+		{
 			$file = $request->file('media');
 			$extension = $file->getClientOriginalExtension();
 			$file->move(storage_path() . '/app/projects', $project->id . $media_title . '.' . $extension);
@@ -104,7 +112,8 @@ class AuthorController extends Controller {
 		return redirect()->route('authorpanel');
 	}
 
-	public function submitCreatedProject(Request $request) {
+	public function submitCreatedProject(Request $request)
+	{
 		$name = $request->input('name');
 		$resp_email = $request->input('responsibleemail');
 		$acronym = $request->input('acronym');
@@ -124,44 +133,55 @@ class AuthorController extends Controller {
 		$indicated_hardware = false;
 		$indicated_observations = false;
 
-		if (isset($used_software) && $used_software != '') {
+		if (isset($used_software) && $used_software != '')
+		{
 			$indicated_software = true;
 		}
 
-		if (isset($used_hardware) && $used_hardware != '') {
+		if (isset($used_hardware) && $used_hardware != '')
+		{
 			$indicated_hardware = true;
 		}
 
-		if (isset($observations) && $observations != '') {
+		if (isset($observations) && $observations != '')
+		{
 			$indicated_observations = true;
 		}
 
-		if (isset($keywords) && $keywords != '') {
+		if (isset($keywords) && $keywords != '')
+		{
 			$indicated_keywords = true;
 		}
 
-		if (isset($elements_emails_string) && $elements_emails_string != '') {
+		if (isset($elements_emails_string) && $elements_emails_string != '')
+		{
 			$elements_emails_string = str_replace(' ', '', $elements_emails_string);
 			$elements_emails_array = explode(',', $elements_emails_string);
 	
 			$mails = array();
 			$mail_user_ids = array();
 	
-			foreach ($elements_emails_array as $elem_email) {
+			foreach ($elements_emails_array as $elem_email)
+			{
 				$matched_users = User::where('email', '=', $elem_email)->get();
 	
-				foreach ($matched_users as $m_u) {
+				foreach ($matched_users as $m_u)
+				{
 					$mails[] = $m_u->email;
 					$mail_user_ids[] = $m_u->id;
 				}
 	
 			}
 	
-			if (!isset($mails) || count($mails) != count($elements_emails_array)) {
-				if (isset($mails)) {
+			if (!isset($mails) || count($mails) != count($elements_emails_array))
+			{
+				if (isset($mails))
+				{
 					$wrong_emails = "";
-					foreach ($elements_emails_array as $elem_email) {
-						if (!in_array($elem_email, $mails)) {
+					foreach ($elements_emails_array as $elem_email)
+					{
+						if (!in_array($elem_email, $mails))
+						{
 							$wrong_emails .= ($elem_email . ', ');
 						}
 					}
@@ -184,7 +204,8 @@ class AuthorController extends Controller {
 
 		$validator = \Validator::make($request->all(), $rules);
 
-		if ($validator->fails()) {
+		if ($validator->fails())
+		{
 			$this->throwValidationException(
 				$request, $validator
 			);
@@ -193,7 +214,8 @@ class AuthorController extends Controller {
 		$users = User::all();
 		$user = NULL;
 		foreach ($users as $u) {
-			if ($u->email == $resp_email) {
+			if ($u->email == $resp_email)
+			{
 				$user = $u;
 			}
 		}
@@ -208,34 +230,42 @@ class AuthorController extends Controller {
 		$project->theme = $thematic_area;
 		$project->started_at = $startdate;
 
-		if ($indicated_keywords == true) {
+		if ($indicated_keywords == true)
+		{
 			$project->keywords = $keywords;
 		}
 
-		if ($indicated_observations == true) {
+		if ($indicated_observations == true)
+		{
 			$project->observations = $observations;
 		}
 
-		if ($indicated_software == true) {
+		if ($indicated_software == true)
+		{
 			$project->used_software = $used_software;
 		}
 
-		if ($indicated_hardware == true) {
+		if ($indicated_hardware == true)
+		{
 			$project->used_hardware = $used_hardware;
 		}
 
-		if (isset($conclusiondate) && $conclusiondate != '') {
+		if (isset($conclusiondate) && $conclusiondate != '')
+		{
 			$project->finished_at = $conclusiondate;
 		}
 
 		$project->save();
 
-		if ($indicated_elements == true) {
+		if ($indicated_elements == true)
+		{
 			$project->users()->attach($mail_user_ids);
 			$all_users = User::all();
 			$existent_ids = array();
-			foreach ($all_users as $u) {
-				if (in_array($u->id, $mail_user_ids) && !in_array($u->institution_id, $existent_ids)) {
+			foreach ($all_users as $u)
+			{
+				if (in_array($u->id, $mail_user_ids) && !in_array($u->institution_id, $existent_ids))
+				{
 					$project->institutions()->attach($u->institution_id);
 					$existent_ids[] = $u->institution_id;
 				}
@@ -245,7 +275,8 @@ class AuthorController extends Controller {
 		return redirect()->route('authorpanel');
 	}
 
-	public function deletePendingComment($id) {
+	public function deletePendingComment($id)
+	{
 		$comment = Comment::findOrFail($id);
 
 		$comment->delete();
@@ -253,7 +284,8 @@ class AuthorController extends Controller {
 		return \Redirect::back();
 	}
 
-	public function deletePendingMedia($id) {
+	public function deletePendingMedia($id)
+	{
 		$media = Media::findOrFail($id);
 
 		$media->delete();
@@ -261,19 +293,23 @@ class AuthorController extends Controller {
 		return \Redirect::back();
 	}
 
-	public function deletePendingProject($id) {
+	public function deletePendingProject($id)
+	{
 		$project = Project::findOrFail($id);
 		$media = Media::where('project_id', '=', $project->id)->get();
 
-		foreach ($media as $m) {
+		foreach ($media as $m)
+		{
 			$m->delete();
 		}
 
-		foreach ($project->users as $user) {
+		foreach ($project->users as $user)
+		{
 			$project->users()->detach($user->id);
 		}
 
-		foreach ($project->institutions as $inst) {
+		foreach ($project->institutions as $inst)
+		{
 			$project->institutions()->detach($inst->id);
 		}
 

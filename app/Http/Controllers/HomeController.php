@@ -29,13 +29,16 @@ class HomeController extends Controller {
 		$user = User::findOrFail($user_id);
 		$role = $user->role;
 
-		if ($role == Constants::$admin_role) {
+		if ($role == Constants::$admin_role)
+		{
 			return redirect()->route('adminpanel');
 		}
-		else if ($role == Constants::$author_role) {
+		else if ($role == Constants::$author_role)
+		{
 			return redirect()->route('authorpanel');
 		}
-		else if ($role == Constants::$editor_role) {
+		else if ($role == Constants::$editor_role)
+		{
 			return redirect()->route('editorpanel');
 		}
 

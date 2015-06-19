@@ -31,32 +31,40 @@ class ProjectBrowserController extends Controller {
 		$user = NULL;
 		$error_msg = false;
 
-		if (! \Auth::guest()) {
+		if (! \Auth::guest())
+		{
 			$user_id = \Auth::user()->id;
 			$user = User::findOrFail($user_id);
 			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
 		}
 
-		if (!isset($term) || $term == '') {
-			if (isset($sort)) {
+		if (!isset($term) || $term == '')
+		{
+			if (isset($sort))
+			{
 				$projects = $this->sortPaginate(4, $sort);
 			}
-			else {
+			else
+			{
 				$projects = $this->sortPaginate(4, 'titleab');
 			}
 			
 		}
-		else{
+		else
+		{
 			
-			if (!isset($filter)) {
+			if (!isset($filter))
+			{
 				$filter = 'name';
 			}
 
-			if (!isset($sort)) {
+			if (!isset($sort))
+			{
 				$sort = 'titleab';
 			}
 
-			switch ($filter) {
+			switch ($filter)
+			{
 				case 'name':
 					$projects = $this->sortWherePaginate('name', 'LIKE', "%$term%", 4, $sort);
 					break;
@@ -68,8 +76,10 @@ class ProjectBrowserController extends Controller {
 				case 'responsible':
 					$people = User::where('name', 'LIKE', '%' . $term . '%')->get();
 					$p_id = array();
-					foreach ($people as $person) {
-						if (!in_array($person->id, $p_id)) {
+					foreach ($people as $person)
+					{
+						if (!in_array($person->id, $p_id))
+						{
 							$p_id[] = $person->id;
 						}
 
@@ -92,7 +102,8 @@ class ProjectBrowserController extends Controller {
 			}
 		}
 
-		if (count($projects) < 1) {
+		if (count($projects) < 1)
+		{
 			$error_msg = true;
 		}
 
@@ -134,20 +145,24 @@ class ProjectBrowserController extends Controller {
 		$roles = NULL;
 		$user = NULL;
 
-		foreach ($project->users as $user) {
+		foreach ($project->users as $user)
+		{
 			$institutions_involved_id[] = $user->institution_id;
 		}
 
 		$institutions_involved_name = array();
 
-		foreach ($institutions_involved_id as $inst) {
+		foreach ($institutions_involved_id as $inst)
+		{
 			$aux_inst = Institution::findOrFail($inst);
-			if (!in_array($aux_inst, $institutions_involved_name)) {
+			if (!in_array($aux_inst, $institutions_involved_name))
+			{
 				$institutions_involved_name[] = $aux_inst;
 			}
 		}
 
-		if (! \Auth::guest()) {
+		if (! \Auth::guest())
+		{
 			$user_id = \Auth::user()->id;
 			$user = User::findOrFail($user_id);
 			$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
@@ -189,18 +204,21 @@ class ProjectBrowserController extends Controller {
 		//
 	}
 
-	public function submitComment(Request $request, $id) {
+	public function submitComment(Request $request, $id)
+	{
 		$project = Project::findOrFail($id);
 		$text = $request->input('comment');
 		$msg;
 
 		$user = NULL;
 
-		if (! \Auth::guest()) {
+		if (! \Auth::guest())
+		{
 			$user = \Auth::user();
 		}
 
-		if (!isset($user)) {
+		if (!isset($user))
+		{
 			/*UN-AUTHENTICATED*/
 			$comment = new Comment;
 			$comment->comment = $text;
@@ -210,7 +228,8 @@ class ProjectBrowserController extends Controller {
 
 			$msg = 'Comment submitted successfully but pending approval';
 		}
-		else {
+		else
+		{
 			/* AUTHENTICATED */
 			$comment = new Comment;
 			$comment->comment = $text;
@@ -218,7 +237,8 @@ class ProjectBrowserController extends Controller {
 			$comment->user_name = $user->name;
 			$comment->user_id = $user->id;
 
-			if ($user->role == Constants::$editor_role || $user->role == Constants::$admin_role) {
+			if ($user->role == Constants::$editor_role || $user->role == Constants::$admin_role)
+			{
 				$comment->approved_by = $user->id;
 				$comment->state = Constants::$approved_state;
 				$msg = 'Comment submitted succesfully';
@@ -234,9 +254,11 @@ class ProjectBrowserController extends Controller {
 
 	}
 
-	private function sortPaginate($perPageAmmount, $sortKey) {
+	private function sortPaginate($perPageAmmount, $sortKey)
+	{
 		$projects = NULL;
-		switch ($sortKey) {
+		switch ($sortKey)
+		{
 
 			case 'responsibleab':
 				$projects = Project::where('state', '=', Constants::$approved_state)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
@@ -254,9 +276,11 @@ class ProjectBrowserController extends Controller {
 		return $projects;
 	}
 
-	private function sortWhereInPaginate($whereInA, $whereInB, $perPageAmmount, $sortKey) {
+	private function sortWhereInPaginate($whereInA, $whereInB, $perPageAmmount, $sortKey)
+	{
 		$projects = NULL;
-		switch ($sortKey) {
+		switch ($sortKey)
+		{
 
 			case 'responsibleab':
 				$projects = Project::where('state', '=', Constants::$approved_state)->whereIn($whereInA, $whereInB)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
@@ -274,9 +298,11 @@ class ProjectBrowserController extends Controller {
 		return $projects;
 	}
 
-	private function sortWherePaginate($whereA, $whereB, $whereC, $perPageAmmount, $sortKey) {
+	private function sortWherePaginate($whereA, $whereB, $whereC, $perPageAmmount, $sortKey)
+	{
 		$projects = NULL;
-		switch ($sortKey) {
+		switch ($sortKey)
+		{
 
 			case 'responsibleab':
 				$projects = Project::where('state', '=', Constants::$approved_state)->where($whereA, $whereB, $whereC)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
