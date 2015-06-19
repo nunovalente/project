@@ -43,6 +43,8 @@
                             <li class="bg-danger"><a href="{{ route('adminpanel') }}">Admin Dashboard</a></li>
                         @elseif($user->role == $roles[2])
                             <li class="bg-danger"><a href="{{ route('authorpanel') }}">Author Dashboard</a></li>
+                        @elseif($user->role == $roles[1])
+                            <li class="bg-danger"><a href="{{ route('editorpanel') }}">Editor Dashboard</a></li>
                         @endif
                     @endif
                 </ul>
@@ -176,7 +178,11 @@
                     <div class="row row-a">
                         <div class="col-md-6 portfolio-item">
                             <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">
-                                <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i]->medias[0]->id]) }}" alt="{{ $projects[$i]->name }}">
+                                @if (isset($projects[$i]->medias[0]) && $projects[$i]->medias[0]->state == \App\Constants::$approved_state)
+                                    <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i]->medias[0]->id]) }}" alt="{{ $projects[$i]->name }}">
+                                @else
+                                    <img class="img-responsive img-pbrowser" src="" alt="{{ $projects[$i]->name }}">
+                                @endif
                             </a>
                             <h3>
                                 <a href="{{ route('pbrowser.show', $projects[$i]->id) }}">{{ $projects[$i]->name }}</a>
@@ -186,7 +192,11 @@
                         @if(isset($projects[$i + 1]))
                             <div class="col-md-6 portfolio-item">
                                 <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">
-                                    <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i + 1]->medias[0]->id]) }}" alt="{{ $projects[$i + 1]->name }}">
+                                    @if (isset($projects[$i + 1]->medias[0]) && $projects[$i + 1]->medias[0]->state == \App\Constants::$approved_state)
+                                        <img class="img-responsive img-pbrowser" src="{{ route('download', [$projects[$i + 1]->medias[0]->id]) }}" alt="{{ $projects[$i + 1]->name }}">
+                                    @else
+                                        <img class="img-responsive img-pbrowser" src="" alt="{{ $projects[$i + 1]->name }}">
+                                    @endif
                                 </a>
                                 <h3>
                                     <a href="{{ route('pbrowser.show', $projects[$i + 1]->id) }}">{{ $projects[$i + 1]->name }}</a>

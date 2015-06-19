@@ -239,15 +239,15 @@ class ProjectBrowserController extends Controller {
 		switch ($sortKey) {
 
 			case 'responsibleab':
-				$projects = Project::orderBy('created_by', 'asc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
 				break;
 
 			case 'titleab':
-				$projects = Project::orderBy('name', 'asc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->orderBy('name', 'asc')->paginate($perPageAmmount);
 				break;
 
 			case 'datemrf':
-				$projects = Project::orderBy('started_at', 'desc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->orderBy('started_at', 'desc')->paginate($perPageAmmount);
 				break;
 		}
 
@@ -259,15 +259,15 @@ class ProjectBrowserController extends Controller {
 		switch ($sortKey) {
 
 			case 'responsibleab':
-				$projects = Project::whereIn($whereInA, $whereInB)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->whereIn($whereInA, $whereInB)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
 				break;
 
 			case 'titleab':
-				$projects = Project::whereIn($whereInA, $whereInB)->orderBy('name', 'asc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->whereIn($whereInA, $whereInB)->orderBy('name', 'asc')->paginate($perPageAmmount);
 				break;
 
 			case 'datemrf':
-				$projects = Project::whereIn($whereInA, $whereInB)->orderBy('started_at', 'desc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->whereIn($whereInA, $whereInB)->orderBy('started_at', 'desc')->paginate($perPageAmmount);
 				break;
 		}
 
@@ -279,15 +279,15 @@ class ProjectBrowserController extends Controller {
 		switch ($sortKey) {
 
 			case 'responsibleab':
-				$projects = Project::where($whereA, $whereB, $whereC)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->where($whereA, $whereB, $whereC)->orderBy('created_by', 'asc')->paginate($perPageAmmount);
 				break;
 
 			case 'titleab':
-				$projects = Project::where($whereA, $whereB, $whereC)->orderBy('name', 'asc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->where($whereA, $whereB, $whereC)->orderBy('name', 'asc')->paginate($perPageAmmount);
 				break;
 
 			case 'datemrf':
-				$projects = Project::where($whereA, $whereB, $whereC)->orderBy('started_at', 'desc')->paginate($perPageAmmount);
+				$projects = Project::where('state', '=', Constants::$approved_state)->where($whereA, $whereB, $whereC)->orderBy('started_at', 'desc')->paginate($perPageAmmount);
 				break;
 		}
 

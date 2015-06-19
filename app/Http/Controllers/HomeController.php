@@ -35,9 +35,9 @@ class HomeController extends Controller {
 		else if ($role == Constants::$author_role) {
 			return redirect()->route('authorpanel');
 		}
-
-		$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
-		return view('projects.index', compact('user', 'roles'));
+		else if ($role == Constants::$editor_role) {
+			return redirect()->route('editorpanel');
+		}
 
 	}
 
@@ -46,10 +46,10 @@ class HomeController extends Controller {
 		$user = User::findOrFail($user_id);
 		$roles = array(Constants::$admin_role, Constants::$editor_role, Constants::$author_role);
 
-		$projectscarousel = Project::where('featured_until', '>', \Carbon\Carbon::now())->get();
-		$recentprojects = Project::orderBy('updated_at', 'desc')->take(3)->get();
+		$projectscarousel = Project::where('state', '=', Constants::$approved_state)->where('featured_until', '>', \Carbon\Carbon::now())->get();
+		$recentprojects = Project::where('state', '=', Constants::$approved_state)->orderBy('updated_at', 'desc')->take(3)->get();
 
-		$media = Media::all();
+		$media = Media::where('state', '=', Constants::$approved_state)->get();
 		$users = User::all();
 
 		return view('projects.index', compact('user', 'users', 'roles', 'projectscarousel', 'recentprojects', 'media'));

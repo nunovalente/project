@@ -17,6 +17,7 @@ class Constants extends Model {
 
 	/* STATES */
 
+	public static $refused_state = 2;
 	public static $approved_state = 1;
 	public static $notapproved_state = 0;
 }

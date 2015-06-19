@@ -90,13 +90,13 @@
 
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
-                        <li class="nav-header">Author Dashboard</li>
-                        <li><a class="ajax-link" href="{{ route('authorpanel') }}"><i
+                        <li class="nav-header">Editor Dashboard</li>
+                        <li><a class="ajax-link" href="{{ route('editorpanel') }}"><i
                                     class="glyphicon glyphicon-send"></i><span> Pending Content</span></a></li>
-                        <li><a class="ajax-link" href="{{ route('authorpanelrefused') }}"><i
-                                    class="glyphicon glyphicon-ban-circle"></i><span> Refused Content</span></a></li>
-                        <li><a class="ajax-link" href="{{ route('authorpanelcomments') }}"><i
-                                    class="glyphicon glyphicon-bullhorn"></i><span> View Project Comments</span></a></li>            
+                        <li><a class="ajax-link" href="{{ route('editorpanelapproved') }}"><i
+                                    class="glyphicon glyphicon-thumbs-up"></i><span> Approved Content</span></a></li>          
+                        <li><a class="ajax-link" href="{{ route('editorpanelrefused') }}"><i
+                                    class="glyphicon glyphicon-ban-circle"></i><span> Refused Content</span></a></li> 
                     </ul>
                 </div>
             </div>
@@ -121,7 +121,7 @@
             <a href="{{ route('authlanding') }}">IPL Project Browser</a>
         </li>
         <li>
-            <a href="{{ route('authorpanel') }}">Author Dashboard</a>
+            <a href="{{ route('editorpanel') }}">Editor Dashboard</a>
         </li>
     </ul>
 </div>
@@ -145,13 +145,13 @@
                         </ul>
                     </div>
                 @endif
-                <form class="form-horizontal" role="form" method="POST" action="{{ route('authorcreateproject-post') }}">
+                <form class="form-horizontal" role="form" method="POST" action="{{ route('editoreditproj-post', $project->id) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Name</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                            <input type="text" class="form-control" name="name" value="{{ old('name', $project->name) }}">
                         </div>
                     </div>
 
@@ -165,84 +165,84 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Acronym</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="acronym" value="{{ old('acronym') }}">
+                            <input type="text" class="form-control" name="acronym" value="{{ old('acronym', $project->acronym) }}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Project Start Date (yyyy-mm-dd)</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="startdate" placeholder="Example: 2015-06-01 Represents the 1st of June of 2015" value="{{ old('startdate') }}">
+                            <input type="text" class="form-control" name="startdate" placeholder="Example: 2015-06-01 Represents the 1st of June of 2015" value="{{ old('startdate', $project->started_at) }}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Project Conclusion Date (yyyy-mm-dd)</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="conclusiondate" placeholder="Example: 2015-06-01 Represents the 1st of June of 2015" value="{{ old('conclusion') }}">
+                            <input type="text" class="form-control" name="conclusiondate" placeholder="Example: 2015-06-01 Represents the 1st of June of 2015" value="{{ old('conclusion', $project->finished_at) }}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Project Type</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="type" value="{{ old('type') }}">
+                            <input type="text" class="form-control" name="type" value="{{ old('type', $project->type) }}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Project Description</label>
                         <div class="col-md-6">
-                            <textarea class="form-control not-resizable text-area-fullscreen" name="description" id="description" maxlength="3000" value="{{ old('description') }}" placeholder="Type the description here (3000chars max)"></textarea>
+                            <textarea class="form-control not-resizable text-area-fullscreen" name="description" id="description" maxlength="3000" value="{{ old('description') }}" placeholder="Type the description here (3000chars max)">{{ old('description', $project->description) }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Thematic Area</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="thematicarea" value="{{ old('thematicarea') }}">
+                            <input type="text" class="form-control" name="thematicarea" value="{{ old('thematicarea', $project->theme) }}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Keywords (Separate with a comma)</label>
                         <div class="col-md-6">
-                            <textarea class="form-control not-resizable text-area-fullscreen" id="keywords" maxlength="3000" placeholder="Separate each email with a comma ','" name="keywords" value="{{ old('keywords') }}"></textarea>
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="keywords" maxlength="3000" placeholder="Separate each email with a comma ','" name="keywords" value="{{ old('keywords') }}">{{ old('keywords', $project->keywords) }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Used Software</label>
                         <div class="col-md-6">
-                            <textarea class="form-control not-resizable text-area-fullscreen" id="software" maxlength="3000" placeholder="Example: Mozilla/5.0 (iPhone; CPU iPhone....)" name="software" value="{{ old('software') }}"></textarea>
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="software" maxlength="3000" placeholder="Example: Mozilla/5.0 (iPhone; CPU iPhone....)" name="software" value="{{ old('software') }}">{{ old('software', $project->used_software) }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Used Hardware</label>
                         <div class="col-md-6">
-                            <textarea class="form-control not-resizable text-area-fullscreen" id="hardware" maxlength="3000" placeholder="Example: Intel i7, 8GB DDR3 RAM @1600MHz....." name="hardware" value="{{ old('hardware') }}"></textarea>
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="hardware" maxlength="3000" placeholder="Example: Intel i7, 8GB DDR3 RAM @1600MHz....." name="hardware" value="{{ old('hardware') }}">{{ old('hardware', $project->used_hardware) }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Observations</label>
                         <div class="col-md-6">
-                            <textarea class="form-control not-resizable text-area-fullscreen" id="observations" maxlength="3000" placeholder="Write any observation here" name="observations" value="{{ old('observations') }}"></textarea>
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="observations" maxlength="3000" placeholder="Write any observation here" name="observations" value="{{ old('observations') }}">{{ old('observations', $project->observations) }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Team Elements' Emails (Separate with a comma)</label>
                         <div class="col-md-6">
-                            <textarea class="form-control not-resizable text-area-fullscreen" id="teamelements" maxlength="3000" placeholder="Separate each email with a comma ','" name="teamelements" value="{{ old('teammelements') }}"></textarea>
+                            <textarea class="form-control not-resizable text-area-fullscreen" id="teamelements" maxlength="3000" placeholder="Separate each email with a comma ','" name="teamelements">@foreach($mails as $mail){{ $mail }}, @endforeach</textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <button type="submit" class="btn btn-primary">
-                                Create Project
+                                Edit Project
                             </button>
                         </div>
                     </div>

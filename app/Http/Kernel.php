@@ -29,7 +29,8 @@ class Kernel extends HttpKernel {
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
 		'role_admin' => 'App\Http\Middleware\RoleAdminMiddleware',
 		'role_disabled' => 'App\Http\Middleware\RoleDisabledMiddleware',
-		'role_author' => 'App\Http\Middleware\RoleAuthorMiddleware'
+		'role_author' => 'App\Http\Middleware\RoleAuthorMiddleware',
+		'role_editor' => 'App\Http\Middleware\RoleEditorMiddleware'
 	];
 
 }

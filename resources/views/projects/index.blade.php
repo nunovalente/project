@@ -36,6 +36,8 @@
                             <li class="bg-danger"><a href="{{ route('adminpanel') }}">Admin Dashboard</a></li>
                         @elseif($user->role == $roles[2])
                             <li class="bg-danger"><a href="{{ route('authorpanel') }}">Author Dashboard</a></li>
+                        @elseif($user->role == $roles[1])
+                            <li class="bg-danger"><a href="{{ route('editorpanel') }}">Editor Dashboard</a></li>
                         @endif
                     @endif
                     <li>

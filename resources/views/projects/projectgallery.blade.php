@@ -41,8 +41,10 @@
                     @if (! \Auth::guest())
                         @if (\Auth::user()->role == \App\Constants::$admin_role)
                             <li class="bg-danger"><a href="{{ route('adminpanel') }}">Admin Dashboard</a></li>
-                        @else if(\Auth::user()->role == \App\Constants::$author_role)
+                        @elseif(\Auth::user()->role == \App\Constants::$author_role)
                             <li class="bg-danger"><a href="{{ route('authorpanel') }}">Author Dashboard</a></li>
+                        @elseif(\Auth::user()->role == \App\Constants::$editor_role)
+                            <li class="bg-danger"><a href="{{ route('editorpanel') }}">Editor Dashboard</a></li>
                         @endif
                     @endif
                     <li>

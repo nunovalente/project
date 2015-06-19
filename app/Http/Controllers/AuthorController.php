@@ -25,12 +25,83 @@ class AuthorController extends Controller {
 		$pending_media = Media::where('state', '=', Constants::$notapproved_state)->where('created_by', '=', $user->id)->get();
 		$pending_projects = Project::where('state', '=', Constants::$notapproved_state)->where('created_by', '=', $user->id)->get();
 
-		return view('adminpanel.adminpanelauthorpending', compact('pending_projects'));
+		return view('adminpanel.adminpanelauthorpending', compact('pending_projects', 'pending_media', 'pending_comments'));
+	}
+
+	public function showComments() {
+		$user = \Auth::user();
+		$myProjs = array();
+
+		$approved_projs = Project::where('state', '=', Constants::$approved_state)->where('created_by', '=', $user->id)->get();
+
+		foreach ($approved_projs as $proj) {
+			$myProjs[] = $proj->id;
+		}
+
+		$approved_comments = Comment::where('state', '=', Constants::$approved_state)->whereIn('project_id', $myProjs)->get();
+
+		return view('adminpanel.adminpanelauthorcomments', compact('approved_comments', 'approved_projs'));
+	}
+
+	public function showAuthorRefusedPanel() {
+		$user = \Auth::user();
+
+		$refused_comments = Comment::where('state', '=', Constants::$refused_state)->where('user_id', '=', $user->id)->get();
+		$refused_media = Media::where('state', '=', Constants::$refused_state)->where('created_by', '=', $user->id)->get();
+		$refused_projects = Project::where('state', '=', Constants::$refused_state)->where('created_by', '=', $user->id)->get();
+
+		return view('adminpanel.adminpanelauthorrefused', compact('refused_projects', 'refused_media', 'refused_comments'));
 	}
 
 	public function showCreateProject() {
 
 		return view('adminpanel.adminpanelauthoraddproject');
+	}
+
+	public function showSubmitMediaPendingProject($id) {
+		$project = Project::findOrFail($id);
+
+		return view('adminpanel.adminpanelauthorsubmitmediapendingproject', compact('project'));
+	}
+
+	public function submitMediaPendingProject(Request $request, $id) {
+		$project = Project::findOrFail($id);
+		$media = new Media;
+		$media_title = $request->input('mediatitle');
+		
+		$rules = ['mediatitle' => 'required|max:255',
+				  'media' => 'required'];
+
+		$validator = \Validator::make($request->all(), $rules);
+
+		if ($validator->fails()) {
+			$this->throwValidationException(
+				$request, $validator
+			);
+		}
+
+		$file = NULL;
+
+		if ($request->hasFile('media') && $request->file('media')->isValid()) {
+			$file = $request->file('media');
+			$extension = $file->getClientOriginalExtension();
+			$file->move(storage_path() . '/app/projects', $project->id . $media_title . '.' . $extension);
+			$media->public_name = $project->id . $media_title . '.' . $extension;
+			$media->int_file = 'projects/' . $project->id . $media_title . '.' . $extension;
+			$media->mime_type = 'image/' . $extension;
+		}
+
+		$media->project_id = $project->id;
+		$media->state = Constants::$notapproved_state;
+		$media->created_by = \Auth::user()->id;
+		$media->approved_by = \Auth::user()->id;
+		$media->created_at = \Carbon\Carbon::now();
+		$media->updated_at = \Carbon\Carbon::now();
+		$media->title = $media_title;
+
+		$media->save();
+
+		return redirect()->route('authorpanel');
 	}
 
 	public function submitCreatedProject(Request $request) {
@@ -162,9 +233,11 @@ class AuthorController extends Controller {
 		if ($indicated_elements == true) {
 			$project->users()->attach($mail_user_ids);
 			$all_users = User::all();
+			$existent_ids = array();
 			foreach ($all_users as $u) {
-				if (in_array($u->id, $mail_user_ids)) {
+				if (in_array($u->id, $mail_user_ids) && !in_array($u->institution_id, $existent_ids)) {
 					$project->institutions()->attach($u->institution_id);
+					$existent_ids[] = $u->institution_id;
 				}
 			}
 		}
@@ -172,8 +245,29 @@ class AuthorController extends Controller {
 		return redirect()->route('authorpanel');
 	}
 
+	public function deletePendingComment($id) {
+		$comment = Comment::findOrFail($id);
+
+		$comment->delete();
+
+		return \Redirect::back();
+	}
+
+	public function deletePendingMedia($id) {
+		$media = Media::findOrFail($id);
+
+		$media->delete();
+
+		return \Redirect::back();
+	}
+
 	public function deletePendingProject($id) {
 		$project = Project::findOrFail($id);
+		$media = Media::where('project_id', '=', $project->id)->get();
+
+		foreach ($media as $m) {
+			$m->delete();
+		}
 
 		foreach ($project->users as $user) {
 			$project->users()->detach($user->id);
@@ -182,6 +276,8 @@ class AuthorController extends Controller {
 		foreach ($project->institutions as $inst) {
 			$project->institutions()->detach($inst->id);
 		}
+
+
 
 		$project->delete();
 

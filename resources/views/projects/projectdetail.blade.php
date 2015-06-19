@@ -43,6 +43,8 @@
                             <li class="bg-danger"><a href="{{ route('adminpanel') }}">Admin Dashboard</a></li>
                         @elseif($user->role == $roles[2])
                             <li class="bg-danger"><a href="{{ route('authorpanel') }}">Author Dashboard</a></li>
+                        @elseif($user->role == $roles[1])
+                            <li class="bg-danger"><a href="{{ route('editorpanel') }}">Editor Dashboard</a></li>
                         @endif
                     @endif
                     <li>
@@ -94,7 +96,11 @@
         <div class="row">
 
             <div class="col-md-8">
-                <img class="img-responsive img-pdetail-main" src="{{ route('download', [$project->medias[0]->id]) }}" alt="{{ $project->name }}">
+                @if (isset($project->medias[0]))
+                    <img class="img-responsive img-pdetail-main" src="{{ route('download', [$project->medias[0]->id]) }}" alt="{{ $project->name }}">
+                @else
+                    <img class="img-responsive img-pdetail-main" src="" alt="{{ $project->name }}">
+                @endif
             </div>
 
             <div class="col-md-4">

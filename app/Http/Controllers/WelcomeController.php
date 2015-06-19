@@ -3,6 +3,7 @@
 use App\Media;
 use App\User;
 use App\Project;
+use App\Constants;
 
 class WelcomeController extends Controller {
 
@@ -34,9 +35,9 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{	
-		$projectscarousel = Project::where('featured_until', '>', \Carbon\Carbon::now())->get();
-		$recentprojects = Project::orderBy('updated_at', 'desc')->take(3)->get();
-		$media = Media::all();
+		$projectscarousel = Project::where('state', '=', Constants::$approved_state)->where('featured_until', '>', \Carbon\Carbon::now())->get();
+		$recentprojects = Project::where('state', '=', Constants::$approved_state)->orderBy('updated_at', 'desc')->take(3)->get();
+		$media = Media::where('state', '=', Constants::$approved_state)->get();
 		$users = User::all();
 
 		return view('projects.index', compact('users', 'projectscarousel', 'recentprojects', 'media'));

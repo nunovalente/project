@@ -90,13 +90,13 @@
 
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
-                        <li class="nav-header">Author Dashboard</li>
-                        <li><a class="ajax-link" href="{{ route('authorpanel') }}"><i
+                        <li class="nav-header">Editor Dashboard</li>
+                        <li><a class="ajax-link" href="{{ route('editorpanel') }}"><i
                                     class="glyphicon glyphicon-send"></i><span> Pending Content</span></a></li>
-                        <li><a class="ajax-link" href="{{ route('authorpanelrefused') }}"><i
-                                    class="glyphicon glyphicon-ban-circle"></i><span> Refused Content</span></a></li>
-                        <li><a class="ajax-link" href="{{ route('authorpanelcomments') }}"><i
-                                    class="glyphicon glyphicon-bullhorn"></i><span> View Project Comments</span></a></li>            
+                        <li><a class="ajax-link" href="{{ route('editorpanelapproved') }}"><i
+                                    class="glyphicon glyphicon-thumbs-up"></i><span> Approved Content</span></a></li>          
+                        <li><a class="ajax-link" href="{{ route('editorpanelrefused') }}"><i
+                                    class="glyphicon glyphicon-ban-circle"></i><span> Refused Content</span></a></li> 
                     </ul>
                 </div>
             </div>
@@ -121,7 +121,7 @@
             <a href="{{ route('authlanding') }}">IPL Project Browser</a>
         </li>
         <li>
-            <a href="{{ route('authorpanel') }}">Author Dashboard</a>
+            <a href="{{ route('editorpanel') }}">Editor Dashboard</a>
         </li>
     </ul>
 </div>
@@ -130,92 +130,38 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-content row">
-                <div class="col-lg-2 col-sm-4">
-                    <div class="btn-group" aria-label="Create New Project Button">
-                        <p>&nbsp</p>
-                        <a href="{{ route('authorcreateproject') }}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp&nbspCreate Project</button></a>
+                <div class="alert alert-danger margin-side">
+                    {{ $project->name }}
+                </div>
+                <form class="form-horizontal" role="form" method="POST" action="{{ route('pendingprojrefuse', $project->id) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Reason</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="reason" placeholder="Specify a reason for refusing" value="{{ old('reason') }}">
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- PENDING PROJECTS -->
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_projects) && count($pending_projects) > 0)
-                        <p class="alert alert-info">Pending Projects</p>
-                        <table class="list-group full-width">
-                        @foreach ($pending_projects as $project)
-                            <tr class="list-group-item">
-                            <td>{{ $project->name }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $project-> name }} Author management buttons">
-                                    <td><form action="{{ route('pendingprojsubmitmedia-show', $project->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Submit Media</button>
-                                        </form>
-                                    </td>
-                                    <td><form action="{{ route('pendingprojdelete', $project->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Delete Submission</button>
-                                        </form>
-                                    </td>
-                                </div>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="alert alert-success">You have 0 pending projects :)</p>
-                    @endif
-                    </table>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                Refuse
+                            </button>
+                        </div>
+                    </div>
+                </form>
 
-            <!-- PENDING MEDIA -->
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_media) && count($pending_media) > 0)
-                        <p class="alert alert-warning">Pending Media</p>
-                        <table class="list-group full-width">
-                        @foreach ($pending_media as $media)
-                            <tr class="list-group-item">
-                            <td>{{ $media->title }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $media->title }} Author management buttons">
-                                    <td><form action="{{ route('pendingmediadelete', $media->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Delete Submission</button>
-                                        </form>
-                                    </td>
-                                </div>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="alert alert-success">You have 0 pending media :)</p>
-                    @endif
-                    </table>
-                </div>
-            </div>
+                <form class="form-horizontal" role="form" method="get" action="{{ route('editorpanel') }}">
 
-            <!-- PENDING COMMENTS -->
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_comments) && count($pending_comments) > 0)
-                        <p class="alert alert-danger">Pending Comments</p>
-                        <table class="list-group full-width">
-                        @foreach ($pending_comments as $comment)
-                            <tr class="list-group-item">
-                            <td>{{ $comment->id }} : {{ $comment->comment }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $comment->id }} Author management buttons">
-                                    <td><form action="{{ route('pendingcommentdelete', $comment->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Delete Submission</button>
-                                        </form>
-                                    </td>
-                                </div>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="alert alert-success">You have 0 pending comments :)</p>
-                    @endif
-                    </table>
-                </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

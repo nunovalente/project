@@ -65,14 +65,15 @@
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                <ul class="nav nav-pills nav-stacked main-menu">
+                        <li class="nav-header">Author Dashboard</li>
+                        <li><a class="ajax-link" href="{{ route('authorpanel') }}"><i
+                                    class="glyphicon glyphicon-send"></i><span> Pending Content</span></a></li>
+                        <li><a class="ajax-link" href="{{ route('authorpanelrefused') }}"><i
+                                    class="glyphicon glyphicon-ban-circle"></i><span> Refused Content</span></a></li>
+                        <li><a class="ajax-link" href="{{ route('authorpanelcomments') }}"><i
+                                    class="glyphicon glyphicon-bullhorn"></i><span> View Project Comments</span></a></li>            
+                    </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -94,9 +95,7 @@
                         <li><a class="ajax-link" href="{{ route('authorpanel') }}"><i
                                     class="glyphicon glyphicon-send"></i><span> Pending Content</span></a></li>
                         <li><a class="ajax-link" href="{{ route('authorpanelrefused') }}"><i
-                                    class="glyphicon glyphicon-ban-circle"></i><span> Refused Content</span></a></li>
-                        <li><a class="ajax-link" href="{{ route('authorpanelcomments') }}"><i
-                                    class="glyphicon glyphicon-bullhorn"></i><span> View Project Comments</span></a></li>            
+                                    class="glyphicon glyphicon-ban-circle"></i><span> Refused Content</span></a></li>            
                     </ul>
                 </div>
             </div>
@@ -138,21 +137,19 @@
                 </div>
             </div>
 
-            <!-- PENDING PROJECTS -->
+            <!-- REFUSED PROJECTS -->
             <div class="box-content row">
                 <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_projects) && count($pending_projects) > 0)
-                        <p class="alert alert-info">Pending Projects</p>
+                    @if(isset($refused_projects) && count($refused_projects) > 0)
+                        <p class="alert alert-info">Refused Projects</p>
                         <table class="list-group full-width">
-                        @foreach ($pending_projects as $project)
+                        @foreach ($refused_projects as $project)
                             <tr class="list-group-item">
-                            <td>{{ $project->name }}</td>
+                            <td>{{ $project->name }}<br>
+                                @if (isset($project->refusal_msg))
+                                    Refusal reason: {{ $project->refusal_msg }}
+                                @endif</td>
                                 <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $project-> name }} Author management buttons">
-                                    <td><form action="{{ route('pendingprojsubmitmedia-show', $project->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Submit Media</button>
-                                        </form>
-                                    </td>
                                     <td><form action="{{ route('pendingprojdelete', $project->id) }}" method="post">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button type="submit" class="btn btn-primary">Delete Submission</button>
@@ -162,21 +159,24 @@
                             </tr>
                         @endforeach
                     @else
-                        <p class="alert alert-success">You have 0 pending projects :)</p>
+                        <p class="alert alert-success">You have 0 refused projects :)</p>
                     @endif
                     </table>
                 </div>
             </div>
 
-            <!-- PENDING MEDIA -->
+            <!-- REFUSED MEDIA -->
             <div class="box-content row">
                 <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_media) && count($pending_media) > 0)
-                        <p class="alert alert-warning">Pending Media</p>
+                    @if(isset($refused_media) && count($refused_media) > 0)
+                        <p class="alert alert-warning">Refused Media</p>
                         <table class="list-group full-width">
-                        @foreach ($pending_media as $media)
+                        @foreach ($refused_media as $media)
                             <tr class="list-group-item">
-                            <td>{{ $media->title }}</td>
+                            <td>{{ $media->title }}<br>
+                                @if (isset($media->refusal_msg))
+                                    Refusal reason: {{ $media->refusal_msg }}
+                                @endif</td>
                                 <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $media->title }} Author management buttons">
                                     <td><form action="{{ route('pendingmediadelete', $media->id) }}" method="post">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -187,21 +187,24 @@
                             </tr>
                         @endforeach
                     @else
-                        <p class="alert alert-success">You have 0 pending media :)</p>
+                        <p class="alert alert-success">You have 0 refused media :)</p>
                     @endif
                     </table>
                 </div>
             </div>
 
-            <!-- PENDING COMMENTS -->
+            <!-- REFUSED COMMENTS -->
             <div class="box-content row">
                 <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_comments) && count($pending_comments) > 0)
-                        <p class="alert alert-danger">Pending Comments</p>
+                    @if(isset($refused_comments) && count($refused_comments) > 0)
+                        <p class="alert alert-danger">Refused Comments</p>
                         <table class="list-group full-width">
-                        @foreach ($pending_comments as $comment)
+                        @foreach ($refused_comments as $comment)
                             <tr class="list-group-item">
-                            <td>{{ $comment->id }} : {{ $comment->comment }}</td>
+                            <td>{{ $comment->id }} : {{ $comment->comment }}<br>
+                                @if (isset($comment->refusal_msg))
+                                    Refusal reason: {{ $comment->refusal_msg }}
+                                @endif</td>
                                 <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $comment->id }} Author management buttons">
                                     <td><form action="{{ route('pendingcommentdelete', $comment->id) }}" method="post">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -212,7 +215,7 @@
                             </tr>
                         @endforeach
                     @else
-                        <p class="alert alert-success">You have 0 pending comments :)</p>
+                        <p class="alert alert-success">You have 0 refused comments :)</p>
                     @endif
                     </table>
                 </div>

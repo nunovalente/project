@@ -130,92 +130,42 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-content row">
-                <div class="col-lg-2 col-sm-4">
-                    <div class="btn-group" aria-label="Create New Project Button">
-                        <p>&nbsp</p>
-                        <a href="{{ route('authorcreateproject') }}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp&nbspCreate Project</button></a>
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger margin-side">
+                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
-                </div>
-            </div>
+                @endif
+                <form class="form-horizontal" role="form" method="POST" action="{{ route('pendingprojsubmitmedia-upload', $project->id) }}" enctype="multipart/form-data">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-            <!-- PENDING PROJECTS -->
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_projects) && count($pending_projects) > 0)
-                        <p class="alert alert-info">Pending Projects</p>
-                        <table class="list-group full-width">
-                        @foreach ($pending_projects as $project)
-                            <tr class="list-group-item">
-                            <td>{{ $project->name }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $project-> name }} Author management buttons">
-                                    <td><form action="{{ route('pendingprojsubmitmedia-show', $project->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Submit Media</button>
-                                        </form>
-                                    </td>
-                                    <td><form action="{{ route('pendingprojdelete', $project->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Delete Submission</button>
-                                        </form>
-                                    </td>
-                                </div>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="alert alert-success">You have 0 pending projects :)</p>
-                    @endif
-                    </table>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Media Title</label>
+                        <div class="col-md-6">
+                            <input required type="text" class="form-control" name="mediatitle" value="{{ old('mediatitle') }}">
+                        </div>
+                    </div>
 
-            <!-- PENDING MEDIA -->
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_media) && count($pending_media) > 0)
-                        <p class="alert alert-warning">Pending Media</p>
-                        <table class="list-group full-width">
-                        @foreach ($pending_media as $media)
-                            <tr class="list-group-item">
-                            <td>{{ $media->title }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $media->title }} Author management buttons">
-                                    <td><form action="{{ route('pendingmediadelete', $media->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Delete Submission</button>
-                                        </form>
-                                    </td>
-                                </div>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="alert alert-success">You have 0 pending media :)</p>
-                    @endif
-                    </table>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Media</label>
+                        <div class="col-md-6">
+                            <input required type="file" class="form-control" name="media">
+                        </div>
+                    </div>
 
-            <!-- PENDING COMMENTS -->
-            <div class="box-content row">
-                <div class="col-lg-12 col-md-12">
-                    @if(isset($pending_comments) && count($pending_comments) > 0)
-                        <p class="alert alert-danger">Pending Comments</p>
-                        <table class="list-group full-width">
-                        @foreach ($pending_comments as $comment)
-                            <tr class="list-group-item">
-                            <td>{{ $comment->id }} : {{ $comment->comment }}</td>
-                                <div class="btn-group.btn-group-justified" role="group" aria-label="{{ $comment->id }} Author management buttons">
-                                    <td><form action="{{ route('pendingcommentdelete', $comment->id) }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-primary">Delete Submission</button>
-                                        </form>
-                                    </td>
-                                </div>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="alert alert-success">You have 0 pending comments :)</p>
-                    @endif
-                    </table>
-                </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                Submit Media
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>
